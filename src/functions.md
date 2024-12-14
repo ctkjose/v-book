@@ -53,7 +53,7 @@ fn main() {
 
 In the previous code snippet the function `greet` only has one parameter `name`. When we called our function the string value `'Joe'` is the argument that we passed to the parameter `name` of our `greet` function.
 
-In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. We use
+In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
 
 Since there are also no globals, that means that the return values of the functions,
 are a function of their arguments only, and their evaluation has no side effects
