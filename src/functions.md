@@ -51,7 +51,7 @@ fn main() {
 }
 ```
 
-In the previous code snippet the function `greet` only has one parameter `name`. When we called our function the string value `'Joe'` is the argument that we passed to the parameter `name` of our `greet` function.
+In the previous code snippet the function `greet` only has one parameter `name`. When we invoke the function the string value `'Joe'` is the argument that we passed to the parameter `name` of our `greet` function.
 
 The parameter definition is just a variable name followed by its data type, for example `name string`. Think of it as a variable that you will use inside the function to reference the value (argument) that was passed to the function when it was called. In the example before notice that we use the variable `name` to build our greet message. We invoked the `greet` function with `greet('Joe')` therefore inside the function the variable `name` has the string value `'Joe'`. 
 
@@ -70,27 +70,79 @@ fn main() {
 }
 ```
 
-The `greet` function now requires two arguments, the name of the person to greet and the actual greeting.
+The `greet` function now requires two arguments, the name of the person to greet and the actual greeting. The value of the arguments, in this case the strings `'Joe'` and `'Good morning'` are passed to the respective parameters `name` and `greeting` following the order in which they were declared.
 
 ### Mutability of arguments
 
 In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
 
+```v
+fn double_value(mut n int) {
+    n *= 2 // Modify the value directly
+}
+
+fn main() {
+    mut my_number := 5
+    println('Before: $my_number') // Output: Before: 5
+
+    double_value(mut my_number)
+    println('After: $my_number')  // Output: After: 10
+}
+```
 
 ## Returning values
 
-We use the keyword `return` to exit our function and 
+We use the keyword `return` to exit our function and  return a value to the code that invoked our function.
+
 ```v
-fn foo() (int, int) {
-	return 2, 3
+fn add(a int, b int) int {
+    return a + b
 }
 
-a, b := foo()
-println(a) // 2
-println(b) // 3
-c, _ := foo() // ignore values using `_`
+fn main() {
+    // Call the function and assign the return value to the local variable result	
+    result := add(5, 3) 
+    println(result)     // Output: 8
+}
+```
+In V, functions can return multiple values by returning a tuple. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
+
+```v
+fn calculate(a int, b int) (int, int) {
+    sum := a + b
+    product := a * b
+    return sum, product
+}
+
+fn main() {
+    sum, product := calculate(5, 3) // Capture both return values
+    println('Sum: $sum')            // Output: Sum: 8
+    println('Product: $product')    // Output: Product: 15
+}
 ```
 
+When we invoke a function we can ignore the returned value by using the special underscore variable (`_`). The `_` acts as a generic trash can. 
+
+```v
+fn doSomething(a int, b int) int {
+    return a + b
+}
+fn foo() (int, int) {
+    return 2, 3
+}
+
+fn main() {
+    // Call the function and ignore the returned value
+    _ := add(5, 3)
+
+    //We can also ignore a particular value when the function returns multiple values
+    a, b := foo() //regular call, use all the values returned
+    println(a) // Outputs 2
+    println(b) // Outputs 3
+    c, _ := foo() // ignore the second value using `_`
+    println(c) // Outputs 2
+}
+```
 
 Functions are types
 
