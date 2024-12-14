@@ -1,0 +1,12 @@
+{
+  "eablokker.tabsSidebar.config.collapsedFolders" : [
+
+  ],
+  "eablokker.tabsSidebar.config.customKindGroupsOrder" : [
+    "markdown"
+  ],
+  "eablokker.tabsSidebar.config.customTabOrder" : [
+    "file:\/\/\/Users\/ctk\/Documents\/GitHub\/v-book\/ref_v_doc.md",
+    "file:\/\/\/Users\/ctk\/Documents\/GitHub\/v-book\/src\/functions.md"
+  ]
+}
