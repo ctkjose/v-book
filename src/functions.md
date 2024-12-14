@@ -36,13 +36,13 @@ fn main() {
 }
 ```
 
-## Paramaters & Arguments
+## Paramaters & arguments
 
 We use the term **parameters** for the variables that are listed in the function definition, the *parameters list*. They act as placeholders for the values (arguments) that will be passed when the function is called. While **arguments** are the actual values or data that you pass to a function or method when you call it. These values are assigned to the corresponding parameters.
 
 ```v
 fn greet(name string) string {
-	return 'Hello, $name!'
+	return 'Hello, ' + name + '!'
 }
 
 fn main() {
@@ -53,28 +53,33 @@ fn main() {
 
 In the previous code snippet the function `greet` only has one parameter `name`. When we called our function the string value `'Joe'` is the argument that we passed to the parameter `name` of our `greet` function.
 
+The parameter definition is just a variable name followed by its data type, for example `name string`. Think of it as a variable that you will use inside the function to reference the value (argument) that was passed to the function when it was called. In the example before notice that we use the variable `name` to build our greet message. We invoked the `greet` function with `greet('Joe')` therefore inside the function the variable `name` has the string value `'Joe'`. 
+
+### Multiple parameters
+
+We define additional parameters to the function by separating them with a coma. 
+```v
+
+fn greet(name string, greeting string) string {
+	return '$greeting, $name!'
+}
+
+fn main() {
+	message := greet('Joe', 'Good morning')
+	println(message) // Outputs: Good morning, Joe!
+}
+```
+
+The `greet` function now requires two arguments, the name of the person to greet and the actual greeting.
+
+### Mutability of arguments
+
 In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
 
-Since there are also no globals, that means that the return values of the functions,
-are a function of their arguments only, and their evaluation has no side effects
-(unless the function uses I/O).
 
-Function arguments are immutable by default, even when [references](#references) are passed.
+## Returning values
 
-
-
-
-Functions are types
-
-### Hoisting
-
-Functions can be used before their declaration:
-`add` and `sub` are declared after `main`, but can still be called from `main`.
-This is true for all declarations in V and eliminates the need for header files
-or thinking about the order of files and declarations.
-
-### Returning multiple values
-
+We use the keyword `return` to exit our function and 
 ```v
 fn foo() (int, int) {
 	return 2, 3
@@ -85,3 +90,12 @@ println(a) // 2
 println(b) // 3
 c, _ := foo() // ignore values using `_`
 ```
+
+
+Functions are types
+
+## Hoisting
+
+In V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
+
+
