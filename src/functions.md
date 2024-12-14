@@ -74,19 +74,22 @@ The `greet` function now requires two arguments, the name of the person to greet
 
 ### Mutability of arguments
 
-In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
+In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. 
+
+> **IMPORTANT** V doesn't allow the modification of arguments with primitive types (e.g. strings, integers). Only more complex types such arrays, interfaces, maps, pointers, structs or their aliases can be modified.
+
+To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
 
 ```v
-fn double_value(mut n int) {
-    n *= 2 // Modify the value directly
+fn multiply_by_2(mut arr []int) {
+    for i in 0 .. arr.len {
+        arr[i] *= 2
+    }
 }
-
 fn main() {
-    mut my_number := 5
-    println('Before: $my_number') // Output: Before: 5
-
-    double_value(mut my_number)
-    println('After: $my_number')  // Output: After: 10
+    mut nums := [1, 2, 3]
+    multiply_by_2(mut nums)
+    println(nums) // Outputs "[2, 4, 6]"
 }
 ```
 
@@ -105,7 +108,7 @@ fn main() {
     println(result)     // Output: 8
 }
 ```
-In V, functions can return multiple values by returning a tuple. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
+In V, functions can return multiple values. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
 
 ```v
 fn calculate(a int, b int) (int, int) {
@@ -143,9 +146,36 @@ fn main() {
     println(c) // Outputs 2
 }
 ```
+## Variable number of arguments
+
+V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix.
+Below, `a ...int` refers to an arbitrary amount of parameters that will be collected into an array named `a`.
+
+```v
+fn sum(a ...int) int {
+    mut total := 0
+    for x in a {
+        total += x
+    }
+    return total
+}
+
+fn main() {
+    println(sum()) // Outputs 0
+    println(sum(1)) // Outputs 1
+    println(sum(2, 3)) // Outputs 5
+
+    // using array decomposition, to convert each array element
+    // into an argument to the function
+    a := [2, 3, 4]
+    println(sum(...a)) // <-- using prefix ... here. output: 9
+
+    b := [5, 6, 7]
+    println(sum(...b)) // output: 18
+```
 
 ## Hoisting
 
-In V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
+Unlike C and other languages in V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
 
 
