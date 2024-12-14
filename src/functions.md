@@ -144,8 +144,6 @@ fn main() {
 }
 ```
 
-Functions are types
-
 ## Hoisting
 
 In V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
