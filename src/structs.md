@@ -240,7 +240,7 @@ pub fn (mut usr User) set_quota(size int){
 
 ```
 
-Notice a new syntax used in the `set_quota` function. The receiver parameter is defined inside parenthesis before the actual function signature. In our example the receiver parameter is `(mut usr User)` , inside our function we have available a variable named `usr` which is a mutable instance of the structure `User`. The function `set_quota`  now becomes a member of the `User` structure.
+Notice a new syntax used in the `set_quota` function. The receiver parameter is defined inside parenthesis before the actual function signature. In our example the receiver parameter is `(mut usr User)` , inside our function we have available a variable named `usr` which is a mutable instance of the structure `User`. The function `set_quota`  now behaves like a member of the `User` structure.
 
 The visibility rules also apply to the structure's methods. We add `pub` keyword to be able to invoke our method from outside the accounts module.
 
@@ -258,12 +258,37 @@ fn main(){
 }
 ```
 
-
 There are a couple of rules when creating a function bounded to a structure that you need to follow:
 
 - The function must be declared under the same module as the structure.
 - The structure must be defined before we can define a method for the structure.
 
+### SIDE NOTE: Understanding function receivers and Uniform Function Call Syntax
+
+While the syntax of associating a function to a struct looks a lot like OOP (object-oriented programming) syntax and semantics in reality what V implements are [Uniform Function Call Syntax (UFCS)](https://en.wikipedia.org/wiki/Uniform_Function_Call_Syntax#Rust_usage_of_the_term). Uniform Function Call Syntax (UFCS) is a programming language feature that allows functions to be called using a dot notation similar to what you have in object-oriented languages. Fun fact the dot notation predates OOP and is widley used by many procedural languages to access members of records and structs, for example C, Pascal, Ada, and others. Modern procedural languages like D, Rust, Zig, Go, Elm, Nim and many others implement a notion UFCS. 
+
+The actual implementation of UFCS varies by programming languages but the basic convention that we need to understand is that a function is associated to a receiver value usually something very similar to a `struct` type. Once associated any value that matches the data type of the receiver can not use the dot notation to invoke the function.
+
+The UFCS provides many of the conveniances of OOP dot notation without the complexities of beign force to do OOP, this provides more flexibitlity to developers to adopt the paradigm that work for them while keeping the language simple.
+
+In V the UFCS are used to add a convinient way to call functions on primitive data types like strings, arrays and numbers, structs and interfaces. 
+
+If a data type is defined within a scope that you control you can add an associated function to that type. The syntax is always the same:  `(receiver type) fn funcName(<parameter-list>) <return-type>`. You can also do it with other types defined elsewhere but you have to define a **Type Alias** to do so.
+
+```v
+type Num = int
+
+//associate the method to the typealias num
+fn (mut b Num) double_it() int {
+	return int(b + b) 
+}
+
+fn main() {
+	mut score := Num(20)
+	score = score.double_it()
+	println('The score is $score')
+}
+```
 
 ## Composing Structures
 
