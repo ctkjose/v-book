@@ -201,14 +201,6 @@ fn main() {
 }
 ```
 
-Apple
-:   Pomaceous fruit of plants of the genus Malus in 
-    the family Rosaceae.
-:   An American computer company.
-
-Orange
-:   The fruit of an evergreen tree of the genus Citrus.
-   
 ## Hoisting
 
 Unlike C and other languages in V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
