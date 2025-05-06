@@ -1,0 +1,26 @@
+# ignore editors
+.nova
+.idea
+.project
+.classpath
+.c9
+.vs
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/
+*.code-workspace
+*~
+*.swp
+*.swo
+*.swn
+.env
+
+# ignore system files
+.DS_Store
+._*
+thumbs.db
+/.symlink
+/.bin
+
+.git
