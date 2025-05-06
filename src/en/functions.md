@@ -201,14 +201,13 @@ fn main() {
 }
 ```
 
-Term 1:
-   Body line 1
-   Body line 2
-Term 2:
-   Body line 1
-   Body line 2
-   
-   Body line 3 with empty line above
+Apple
+:   Pomaceous fruit of plants of the genus Malus in 
+    the family Rosaceae.
+:   An American computer company.
+
+Orange
+:   The fruit of an evergreen tree of the genus Citrus.
    
 ## Hoisting
 
