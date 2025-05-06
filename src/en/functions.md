@@ -1,4 +1,4 @@
-# Functions
+# Functions  {menu:topics}
 
 Functions are self-contained chunks of code that perform a specific task. You give a function a name that identifies what it does, and this name is used to “call” the function to perform its task when needed.
 
@@ -36,7 +36,7 @@ fn main() {
 }
 ```
 
-## Paramaters & arguments
+## Paramaters & arguments  {menu:topics}
 
 We use the term **parameters** for the variables that are listed in the function definition, the *parameters list*. They act as placeholders for the values (arguments) that will be passed when the function is called. While **arguments** are the actual values or data that you pass to a function or method when you call it. These values are assigned to the corresponding parameters.
 
@@ -55,7 +55,7 @@ In the previous code snippet the function `greet` only has one parameter `name`.
 
 The parameter definition is just a variable name followed by its data type, for example `name string`. Think of it as a variable that you will use inside the function to reference the value (argument) that the function received. In the example before notice that we use the variable `name` to build our greet message. We invoked the `greet` function with `greet('Joe')` therefore inside the function the variable `name` has the string value `'Joe'`. 
 
-### Multiple parameters
+### Multiple parameters  {menu:topics}
 
 We define additional parameters to the function by separating them with a coma. 
 ```v
@@ -72,7 +72,7 @@ fn main() {
 
 The `greet` function now requires two arguments, the name of the person to greet and the actual greeting. The value of the arguments, in this case the strings `'Joe'` and `'Good morning'` are passed to the respective parameters `name` and `greeting` following the order in which they were declared.
 
-### Mutability of arguments
+### Mutability of arguments  {menu:topics}
 
 In a function **ALL** arguments are immutable by default, that is we can not modify them inside our function. 
 
@@ -93,7 +93,7 @@ fn main() {
 }
 ```
 
-## Returning values
+## Returning values  {menu:topics}
 
 We use the keyword `return` to exit our function and  return a value to the code that invoked our function.
 
@@ -148,7 +148,7 @@ fn main() {
     println(c) // Outputs 2
 }
 ```
-## Variable number of arguments
+## Variable number of arguments  {menu:topics}
 
 V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix. These functions are called **variadic functions**.
 Below, `a ...int` refers to an arbitrary amount of parameters all which are of type `int` that will be collected into an array named `a`.
@@ -177,7 +177,7 @@ fn main() {
 }
 ```
 
-## Unpack array as function arguments
+## Unpack array as function arguments  {menu:topics}
 
 We use the **spread** operator `...` to pass array elements as individual arguments to a function. The array decomposition syntax is `...myarray`. Here each element of the array `myarray` becomes an argument to the function. For example a call like `sum(...[1, 2, 3])` is equivalent to `sum(1, 2, 3)`.
 
