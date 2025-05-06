@@ -2,7 +2,7 @@
 
 Functions are self-contained chunks of code that perform a specific task. You give a function a name that identifies what it does, and this name is used to “call” the function to perform its task when needed.
 
-Functions are defined using the `fn` keyword followed by the function name, parameters (if any), and return type.
+Functions are defined using the `fn` keyword followed by the function name, parameters, and return type. The parameters and return type are optional.
 
 ```v
 fn function_name(parameters) return_type {
@@ -53,7 +53,7 @@ fn main() {
 
 In the previous code snippet the function `greet` only has one parameter `name`. When we invoke the function the string value `'Joe'` is the argument that we passed to the parameter `name` of our `greet` function.
 
-The parameter definition is just a variable name followed by its data type, for example `name string`. Think of it as a variable that you will use inside the function to reference the value (argument) that was passed to the function when it was called. In the example before notice that we use the variable `name` to build our greet message. We invoked the `greet` function with `greet('Joe')` therefore inside the function the variable `name` has the string value `'Joe'`. 
+The parameter definition is just a variable name followed by its data type, for example `name string`. Think of it as a variable that you will use inside the function to reference the value (argument) that the function received. In the example before notice that we use the variable `name` to build our greet message. We invoked the `greet` function with `greet('Joe')` therefore inside the function the variable `name` has the string value `'Joe'`. 
 
 ### Multiple parameters
 
@@ -74,7 +74,7 @@ The `greet` function now requires two arguments, the name of the person to greet
 
 ### Mutability of arguments
 
-In V function **ALL** arguments are immutable by default, that is we can not modify them inside our function. 
+In a function **ALL** arguments are immutable by default, that is we can not modify them inside our function. 
 
 > **IMPORTANT** V doesn't allow the modification of arguments with primitive types (e.g. strings, integers). Only more complex types such arrays, interfaces, maps, pointers, structs or their aliases can be modified.
 
@@ -108,7 +108,7 @@ fn main() {
     println(result)     // Output: 8
 }
 ```
-In V, functions can return multiple values. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
+Functions can return multiple values. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
 
 ```v
 fn calculate(a int, b int) (int, int) {
@@ -123,6 +123,8 @@ fn main() {
     println('Product: $product')    // Output: Product: 15
 }
 ```
+
+> **Go Users**: Notice that the type of a parameter is always specified. While `func my_func(a, b int) int` is a valid Go function declaration in V you must use `fn my_func(a int, b int) int`.
 
 When we invoke a function we can ignore the returned value by using the special underscore variable (`_`). The `_` acts as a generic trash can. 
 
@@ -148,8 +150,8 @@ fn main() {
 ```
 ## Variable number of arguments
 
-V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix.
-Below, `a ...int` refers to an arbitrary amount of parameters that will be collected into an array named `a`.
+V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix. These functions are called **variadic functions**.
+Below, `a ...int` refers to an arbitrary amount of parameters all which are of type `int` that will be collected into an array named `a`.
 
 ```v
 fn sum(a ...int) int {
@@ -172,6 +174,31 @@ fn main() {
 
     b := [5, 6, 7]
     println(sum(...b)) // output: 18
+}
+```
+
+## Unpack array as function arguments
+
+We use the **spread** operator `...` to pass array elements as individual arguments to a function. The array decomposition syntax is `...myarray`. Here each element of the array `myarray` becomes an argument to the function. For example a call like `sum(...[1, 2, 3])` is equivalent to `sum(1, 2, 3)`.
+
+
+This is very useful when combined with variadic functions. Lets see an example:
+
+```v
+
+fn sum(a ...int) int {
+    mut total := 0
+    for x in a {
+        total += x
+    }
+    return total
+}
+fn main() {
+    
+    my_values := [2, 3, 4]
+    println(sum(...my_values)) // <-- using prefix ... here. output: 9
+
+}
 ```
 
 ## Hoisting
