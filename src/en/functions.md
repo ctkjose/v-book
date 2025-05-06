@@ -201,6 +201,15 @@ fn main() {
 }
 ```
 
+Term 1:
+   Body line 1
+   Body line 2
+Term 2:
+   Body line 1
+   Body line 2
+   
+   Body line 3 with empty line above
+   
 ## Hoisting
 
 Unlike C and other languages in V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
