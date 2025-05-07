@@ -26,4 +26,4 @@ thumbs.db
 .git
 ref/
 .DS_Store
-.nova
+.nova/
