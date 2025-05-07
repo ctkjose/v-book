@@ -1,8 +1,11 @@
+{doc-type:doc;doc-version:1.0;doc-title:Functions}
+**V Book** | [Home](./index.md) | [Translations](./book_versions.md) | V-LANG 0.4.10<BR>
 # Functions  {menu:topics}
 
 Functions are self-contained chunks of code that perform a specific task. You give a function a name that identifies what it does, and this name is used to “call” the function to perform its task when needed.
 
 Functions are defined using the `fn` keyword followed by the function name, parameters, and return type. The parameters and return type are optional.
+
 
 ```v
 fn function_name(parameters) return_type {
@@ -95,6 +98,8 @@ fn main() {
 
 ## Returning values  {menu:topics}
 
+A function that returns a value must specify the [type](variables.md#datatypes) of the value to be returned at the end of the function declaration. For instance the function declaration `fn add(a int, b int) int` will return an `int` type.
+
 We use the keyword `return` to exit our function and  return a value to the code that invoked our function.
 
 ```v
@@ -108,6 +113,53 @@ fn main() {
     println(result)     // Output: 8
 }
 ```
+
+## Optional return type {menu:topics;menu-caption:Optional Type}
+In some instances we can only return a value if a given conditions are meet otherwise we can not return the expected value type.
+
+In a function declaration we can specify an [**optional type**](optionaltypes.md) as our return type. This allows us to either return the expected value or the special value `none` to indicate that no value was returned. To create an optional type we just prefix the return type with a `?`.
+
+```v
+fn find_user(id int) ?string {
+    if id == 1 {
+        return "Grace"
+    }
+    return none
+}
+
+fn main(){
+    user := find_user(1)
+    if user != none {
+        println("User found:", user) // Output: User found: Grace
+    } else {
+        println("User not found")
+    }
+}
+```
+
+In this example the declaration of the `find_user` function makes its return type optional with `?string`, that is it returns a `string` or the special value `none`. 
+
+## Returning optional errors {menu:topics;menu-caption:Returning errors}
+
+```v
+fn do_something(s string) !string {
+    if s == "foo" {
+        return "foo"
+    }
+    return error("invalid string")
+}
+
+fn main(){
+    a := do_something("foo") or { "default" } //<-- a will be "foo"
+    b := do_something("bar") or { "default" } //<-- b will be "default"
+
+    println(a)
+    println(b)
+}
+```
+
+## Returning multiple values {menu:topics}
+
 Functions can return multiple values. To do so we first modify our function declaration to now list the different data types that will be returned. The `return` statement can now return multiple values by listing the values to be returned in order separated by a coma `,`.
 
 ```v
@@ -201,7 +253,7 @@ fn main() {
 }
 ```
 
-## Hoisting
+## Hoisting {menu:topics}
 
 Unlike C and other languages in V all declarations are *hoisted*, which allows functions to be used in your code before their declaration.
 
