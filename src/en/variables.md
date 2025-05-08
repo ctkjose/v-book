@@ -75,6 +75,7 @@ Visibility and mutability are two important concepts that we need to understand 
 
 In V we need to explicitly tell when we want to change a value of a variable (mutate). We use the **access modifier** `mut` in front of a variable declaration to indicate that a variable is mutable.
 
+{class:v-play}
 ```v
 fn main() {
 	mut name := "Alice"
@@ -115,6 +116,17 @@ The basic data types are:
   message := 'Hello, V!'
   ```
 
+We can use the function typeof to print the data type of a value. 
+
+{class:v-play}
+```v
+fn main(){
+	pi := 3.14
+	
+	println("The data type of pi is: " + typeof(pi).name )
+}
+```
+
 ## Explicit types {menu:topics}
 
 In some cases you want to specify a type that is different to the one V automatically infers from the context. For example numbers can have different precision and size. We have unsigned/signed integers, 8 bits, 32 bits or 64 bits integers. It's important to have the correct type for code compatibility and to optimize your code for performance and memory use.
@@ -128,7 +140,8 @@ We can explicitly tell the compiler the type we want. For instance the following
 ```v
 fn main() {
 	mut temperature := 36.6 //<-- inferred a 32 bits floating point
-	println(temperature);
+	println(temperature); //<-- prints the value
+	println("The data type of temperature is: " + typeof(temperature).name )
 }
 ```
 
@@ -189,4 +202,28 @@ We categorize numbers further by how much memory they use, the more memory the l
 | `u32` | 0 | 4294967295 |
 | `u64` | 0 | 18446744073709551615 |
 
+## Alternate notation for numbers
 
+A number can also be written in hexadecimal, octal and binary.
+
+
+Literal numbers in hexadecimal notation start with `0x`. 
+
+```v
+carriage_return := 0x0D //<-- 13
+line_feed := 0x0A //<-- 10
+```
+
+Literal numbers in octal notation start with `0o`. 
+
+```v
+carriage_return := 0o15  //<-- 13
+line_feed := 0o12 //<-- 10
+```
+
+Literal numbers in binary start with `0b`. 
+
+```v
+carriage_return := 0b1101  //<-- 13
+line_feed := 0o1010 //<-- 10
+```
