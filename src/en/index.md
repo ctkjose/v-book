@@ -8,10 +8,11 @@ This book is meant to be open and available to as many people as possible. You c
 
 # V Lang {menu:topics}
 
-The [V Language](https://vlang.io) is a young modern programming language that aspire for code that is simple, readable and maintainable.  **V** is the brain child of `Alexander Medvednikov` supported by an open community. The **V Language** is a community base open source project.
+ The **V programming language** is an open source language created by `Alexander Medvednikov` and supported by a community or driven individuals.
 
+The [V Language](https://vlang.io) is a young programming language with a very pragmatic approach. It attempts to tackle the same issues as the many modern languages like Go and Rust do, but keeping the language simple, easy to read and to maintain. In fact the V language has similar syntax compared to the popular Go programming language and borrows many popular ideas from languages like Rust, Python, Swift, Kotlin and many others. One distinction we like to make with **V** is that you will like sensible choices made in the language, it's about simplicity, code that is easy to read and advance features that are easy to master.
 
-This design mantra defines most aspects of the language implementation. For most things in **V** there is one way to do things this means less things to learn and code that is easier to read. The language prioritize **value semantics** of immutable data, that is how data is used and accessed. We explicitly put our intent in the code we write and everything is locked unless you explicitly make it mutable. In **V** type safety is the byproduct of having simple and explicit value semantics.
+While **V** is still a very young language born outside of Big-Tech it has deliver some robust features and performance in its short life.
 
 
 > {color:red;icon:alert} This documentation is in its early stages.
