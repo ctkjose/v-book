@@ -161,7 +161,7 @@ fn main(){
 }
 ```
 
-We use the function `error(message)` to return an [`IError`](error_handling.md) type. In our calling function we use add  catch block with the `or` statement to put the code to be executed when an error is returned. Inside the catch block we have a special variable named `err` with the instance of the error.
+We use the function `error(message)` to return an `IError` ([See section Error Handling](error_handling.md)) type. In our calling function we use add  catch block with the `or` statement to put the code to be executed when an error is returned. Inside the catch block we have a special variable named `err` with the instance of the error.
 
 In our example we are initializing our variable `a` with the results of calling `do_something()` the code ` or { "default" }` has the string that will be assigned when `do_something()` returns an error.
 
