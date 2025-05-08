@@ -139,7 +139,7 @@ fn main(){
 
 In this example the declaration of the `find_user` function makes its return type optional with `?string`, that is it returns a `string` or the special value `none`. 
 
-## Raising Errors {menu:topics;menu-caption:Raising Errors}
+## Returning Errors {menu:topics;menu-caption:Returning Errors}
 
 A function can return a valid type or an [error](#) type.
 
@@ -161,6 +161,32 @@ fn main(){
 }
 ```
 
+We use the function `error(message)` to return an [`IError`](error_handling.md) type. In our calling function we use add  catch block with the `or` statement to put the code to be executed when an error is returned. Inside the catch block we have a special variable named `err` with the instance of the error.
+
+In our example we are initializing our variable `a` with the results of calling `do_something()` the code ` or { "default" }` has the string that will be assigned when `do_something()` returns an error.
+
+We are not limited to one value here. We could also inspect the `err` and assign a different value according to the error.
+
+{class:v-play}
+```v
+fn do_something(s string) !string {
+    if s == "foo" {
+        return "foo"
+    }else if s == "go" {
+        return error_with_code("Why????", 2)
+    }
+    return error_with("invalid string")
+}
+
+fn main(){
+    a := do_something("go") or { if err.code()==2 {"Really no shame!"} else { "" } }
+    
+    println(a)
+}
+```
+In this example we use `error_with_code()` to add an error code to our error, by default the error code is `0`. In our assignment we check the error code and return the string `"Really no shame!"` if the string was `"go"` else we return an empty string.
+
+ 
 In some instances we just need to raise an error on a function that does not return a value.
 
 {class:v-play}
@@ -171,6 +197,8 @@ fn do_something(id int) ! {
     if (id == 1) {
         return error("The id was invalid")
     }
+    
+    // do stuff...
 }
 
 fn main(){
