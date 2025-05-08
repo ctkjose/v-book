@@ -139,8 +139,11 @@ fn main(){
 
 In this example the declaration of the `find_user` function makes its return type optional with `?string`, that is it returns a `string` or the special value `none`. 
 
-## Returning optional errors {menu:topics;menu-caption:Returning errors}
+## Raising Errors {menu:topics;menu-caption:Raising Errors}
 
+A function can return a valid type or an [error](#) type.
+
+{class:v-play}
 ```v
 fn do_something(s string) !string {
     if s == "foo" {
@@ -157,6 +160,31 @@ fn main(){
     println(b)
 }
 ```
+
+In some instances we just need to raise an error on a function that does not return a value.
+
+{class:v-play}
+```v
+
+
+fn do_something(id int) ! {
+    if (id == 1) {
+        return error("The id was invalid")
+    }
+}
+
+fn main(){
+    mut ok := true
+    
+    // Abort on error...
+    do_something(2) or { panic(err) } //<- calling panic will abort the execution
+    
+    // Handle the error...
+    do_something(1) or { 
+        println(err) //<-- prints the error...
+        ok = false
+    }
+}
 
 ## Returning multiple values {menu:topics}
 
@@ -200,6 +228,8 @@ fn main() {
     println(c) // Outputs 2
 }
 ```
+
+
 ## Variable number of arguments  {menu:topics}
 
 V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix. These functions are called **variadic functions**.
