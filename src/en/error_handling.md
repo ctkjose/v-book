@@ -83,6 +83,7 @@ data := read_file(path) or {
 ```
 
 - Inspect the error code to decide how to handle the error.
+
 ```v
 data := read_file(path) or { 
 	if  err.code() == 20 {
@@ -100,6 +101,7 @@ data := read_file(path) or {
 ```
 
 - We can use `panic()` to abort our execution.
+
 ```v
 data := read_file(path) or { 
 	panic(err)
