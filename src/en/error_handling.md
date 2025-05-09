@@ -9,45 +9,27 @@ In **V**, error handling is explicit and visible. bla bla...
 
 # Error Type {menu:topics}
 
-The **Error** type represents an error and provides basic information about the error. In **V** the **Error** type is a generic name given to any [struct](scructs.md) that complies with the `IError` interface. The `IError` interface requires only two methods to be implemented `code()` and `msg()`.
+The **Error** type represents an error and provides basic information about the error. In **V** the **Error** type is a generic name given to any [struct](scructs.md) that complies with the `IError` interface. Every error type must implement two methods `code()` and `msg()`.
+
+In **V**, we have two functions to create quick generic errors, `error(message)` and  `error_with_code(message, code)`.
+
+The function `error(message)` takes an error message and returns a generic error (`MessageError` Type). While the function `error_with_code(message, code)` adds a second argument an integer with an error code associated with this error.
 
 {class:v-play}
 ```v
 fn main(){
-	my_error := error('The username selected does not meet the required standards. See https://myapp.com/help/usernames')
+	my_error := error('The username selected does not meet the required standards.')
 	println(my_error)
 }
 ```
 
-Here we use the function `error(message)` to create a generic error (`MessageError` Type). We assign this error type to the variable `my_error` and then we display the error.
+In our example we used `error(message)` to create our error and assigned this error to the variable `my_error`, finally we display the error.
 
-> Use the function `error_with_code(message, code)` to create an error type with a message and an integer error code.
-
-
-## Error Type Methods
-
-The function `error.code()` returns an `int` with the error code. The default error code is 0;
-
-The function `error.msg()` returns a `string` with the error message.
-
-
-IError Interface
+Unless you need specialized handling of errors or information beyond the message and code these functions will be more than enough to write robust error handling in **V**. By no means you are limited to these you can always roll your own [custom error](#ierror_interface).
 
 
 
-`match err {}` or using `err is SomeErrType` and using `None__`
-
-use err.code()
-
-
-error(msg)
-error_with_code(msg, code)
-
-Custom error types
-
-
-
-# Result Type {menu:topics}
+# Handling errors with a result type {menu:topics:menu-caption:Result Type}
 
 In a [**result type**](https://en.wikipedia.org/wiki/Result_type) we can have a function that returns a value on success, or a **error type** on failure.
 
@@ -109,89 +91,9 @@ fn main(){
 	
 }
 ```
-# Custom error type {menu:topics}
 
-We can create our own custom error type by using [structure composition](structs.md#composingstructures). Here we have two main choices. If we want to use the built-in `msg()` and `code()` functions we use the `MessageError` for composition else we use `Error` which would give us an empty error for us to implement them.
-
-```v
-struct PathError {
-	MessageError //<-- our base struct
-	path string //<-- add some extra information
-}
-
-fn read_file(path string) !string {
-	if path == '' {
-		return PathError{
-			msg:  'Path is blank'
-			code: 25
-			path: path
-		}
-	}
-	return 'File content'
-}
-```
-
-```v
-struct PathError {
-	Error
-	path string
-}
-fn (err PathError) msg() string {
-	return 'Failed to open path: ${err.path}'
-}
-fn (err PathError) code() int {
-	return 25
-}
-
-fn read_file(path string) !string {
-	if path == '' {
-		return PathError{ path: path }
-	}
-	return 'File content'
-}
-```
-
-One bonus of using custom error is the ability to use the `is` operator to check the type of error:
-
-```v
-if err is PathError {
-	println('We got a path error!')
-}else if err is ReadError {
-	println('We got an IO error!')
-}
-
-```
-
-Notice that in **V** nothing will stop you from rolling your on error struct like for example:
-
-```v
-struct MyError {
-pub:
-	msg  string
-	code int
-}
-
-// str returns the message and code of the MyError
-pub fn (err MyError) str() string {
-	return err.msg
-}
-
-// msg returns the message of the MyError
-pub fn (err MyError) msg() string {
-	return err.msg
-}
-
-// code returns the code of MyError
-pub fn (err MyError) code() int {
-	return err.code
-}
-```
 
 # Optional Type {menu:topics}
-
-
-
-
 
 
 {class:v-play}
@@ -253,5 +155,95 @@ fn main(){
 	
 }
 ```
+
+## IError Interface {menu:topics}
+
+A custom error type is just a struct that implements the `IError` interface. This interface is extremely simple, it only requires these two methods:
+
+- `error.code()` returns an `int` with the error code. The default error code is 0;
+
+- `error.msg()` returns a `string` with the error message.
+
+Ideally you want to implement a "to string" method to generate an informative message to users.
+
+Here is an example of a Custom error type implementing the full interface:
+
+```v
+struct MyError {
+pub:
+	msg  string
+	code int
+}
+
+// str returns the message and code of the MyError
+pub fn (err MyError) str() string {
+	return err.msg
+}
+
+// msg returns the message of the MyError
+pub fn (err MyError) msg() string {
+	return err.msg
+}
+
+// code returns the code of MyError
+pub fn (err MyError) code() int {
+	return err.code
+}
+```
+
+An easier way to build a custom error type is to [structure composition](structs.md#composingstructures) with the built-in error types `Error` and `MessageError`.
+
+The built-in struct `MessageError` makes it easier since it provides a msg and code property that simplifies the error creation. The built-in struct `Error` is a blank boiler plate and you will have to roll your own `msg()` and `code()` functions.
+
+```v
+struct PathError {
+	MessageError //<-- our base struct
+	path string //<-- add some extra information
+}
+
+struct ReadError {
+	Error
+	path string
+}
+fn (err ReadError) msg() string {
+	return 'Failed to open path: ${err.path}'
+}
+fn (err ReadError) code() int {
+	return 25
+}
+
+fn read_file(path string) !string {
+	if path == '' {
+		return PathError{
+			msg:  'Path is blank'
+			code: 25
+			path: path
+		}
+	}
+	return 'File content'
+}
+```
+Notice that we defined two error types `PathError` using `MessageError` and `ReadError` using `Error`.
+
+One bonus of using custom errors is the ability to use the `is` operator to check the type of error:
+
+```v
+if err is PathError {
+	println('We got a path error!')
+}else if err is ReadError {
+	println('We got an IO error!')
+}
+
+```
+
+
 # Discussion
+
+`match err {}` or using `err is SomeErrType` and using `None__`
+
+use err.code()
+
+
+error(msg)
+error_with_code(msg, code)
 
