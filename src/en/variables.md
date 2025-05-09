@@ -129,7 +129,7 @@ fn main(){
 
 ## Explicit types {menu:topics}
 
-In some cases you want to specify a type that is different to the one V automatically infers from the context. For example numbers can have different precision and size. We have unsigned/signed integers, 8 bits, 32 bits or 64 bits integers. It's important to have the correct type for code compatibility and to optimize your code for performance and memory use.
+In some cases you want to specify a type that is different to the one V automatically infers from the context. For example [numbers](#numerictypes) can have different precision and size. We have unsigned/signed integers, 8 bits, 32 bits or 64 bits integers. It's important to have the correct type for code compatibility and to optimize your code for performance and memory use.
 
 ```v
 score := 95 //<--  inferred as int (32 bytes signed integer)
@@ -191,21 +191,20 @@ We categorize numbers further by how much memory they use, the more memory the l
 
 > The size of the number is important for two reasons: it limits what is the smallest and largest value we can store in a variable and it optimizes the memory usage of our program.
 
-| Type | Min Value | Max Value |
-| --- | --- | --- |
-| `i8` | -128 | 127 |
-| `i16` | -32768 | 32767 |
-| `i32` | -2147483648 | 2147483647 |
-| `i64` | -9223372036854775808 | 9223372036854775808 |
-| `u8` | 0 | 255 |
-| `u16` | 0 | 65535 |
-| `u32` | 0 | 4294967295 |
-| `u64` | 0 | 18446744073709551615 |
-
-## Alternate notation for numbers
+| Type | Size | Min Value | Max Value |
+| --- | --- | --- | --- |
+| `i8` | | -128 | 127 |
+| `i16` | | -32768 | 32767 |
+| `i32` | | -2147483648 | 2147483647 |
+| `i64` | | -9223372036854775808 | 9223372036854775808 |
+| `i128` | | |
+| `u8` | | 0 | 255 |
+| `u16` | | 0 | 65535 |
+| `u32` | | 0 | 4294967295 |
+| `u64` | | 0 | 18446744073709551615 |
+| `u128` | | |
 
 A number can also be written in hexadecimal, octal and binary.
-
 
 Literal numbers in hexadecimal notation start with `0x`. 
 

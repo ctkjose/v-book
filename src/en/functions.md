@@ -115,6 +115,9 @@ fn main() {
 ```
 
 ## Optional return type {menu:topics;menu-caption:Optional Type}
+
+> See [Error Handling](#error_handling.md) for a more in-depth discussion.
+
 In some instances we can only return a value if a given conditions are meet otherwise we can not return the expected value type.
 
 In a function declaration we can specify an [**optional type**](optionaltypes.md) as our return type. This allows us to either return the expected value or the special value `none` to indicate that no value was returned. To create an optional type we just prefix the return type with a `?`.
@@ -141,7 +144,9 @@ In this example the declaration of the `find_user` function makes its return typ
 
 ## Returning Errors {menu:topics;menu-caption:Returning Errors}
 
-A function can return a valid type or an [error](#) type.
+> See [Error Handling](#error_handling.md) for a more in-depth discussion.
+
+A function can return a valid type on success or an [error](#error_handling.md) type.
 
 {class:v-play}
 ```v
