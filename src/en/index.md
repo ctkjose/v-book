@@ -26,5 +26,6 @@ While **V** is still a very young language born outside of Big-Tech it has deliv
 - [Variables](./variables.md)<BR> Variables and Data Types.
 - [Functions](./functions.md)<BR> Declaring and using functions.
 - [Structs](./structs.md)<BR> How to use structures to represent data.
+- [Error Handling](./errorhandling.md)<BR> Learn about error handling in V. How to use return types and option types to manage errors.
 - [Modules](./modules.md)<BR> Modules.
 

@@ -21,7 +21,7 @@ fn main(){
 
 Here we use the function `error(message)` to create a generic error (`MessageError` Type). We assign this error type to the variable `my_error` and then we display the error.
 
-> We also have the function `error_with_code(message, code)` that creates an error type a with a message and an integer error code.
+> Use the function `error_with_code(message, code)` to create an error type with a message and an integer error code.
 
 
 ## Error Type Methods
