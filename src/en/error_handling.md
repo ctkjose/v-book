@@ -28,7 +28,7 @@ In our example we used `error(message)` to create our error and assigned this er
 Unless you need specialized handling of errors or information beyond the message and code these functions will be more than enough to write robust error handling in **V**. By no means you are limited to these you can always roll your own [custom error](#ierror_interface).
 
 
-# Handling errors with a result type {menu:topics:menu-caption:Result Type}
+# Handling errors with a result type {menu:topics;menu-caption:Result Type}
 
 Using a [**result type**](https://en.wikipedia.org/wiki/Result_type) we can have a function that returns a value on success, or a **error type** on failure.
 
