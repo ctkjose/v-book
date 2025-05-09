@@ -32,7 +32,7 @@ Unless you need specialized handling of errors or information beyond the message
 
 Using a [**result type**](https://en.wikipedia.org/wiki/Result_type) we can have a function that returns a value on success, or a **error type** on failure.
 
-> A Result Type is a functional programming construct where it acts as a container that holds either: a successful value, or an error.
+> A Result Type is a functional programming construct where it acts as a wrapper that holds either: a successful value, or an error.
 
 In **V**, the return type of a function is easily  converted to a *result type* by just prefixing the type with `!`. For example if my return type is `string`, then `!string` is the equivalent result type.
 
@@ -144,6 +144,11 @@ fn main(){
 
 # Optional Type {menu:topics}
 
+Not all error are critical. In some instances, we can only return a value if certain conditions are met; otherwise, we cannot return the expected value type, but the execution of the program is not affected.
+
+An [**optional type**](optional_types.md) is a wrapper to a valid value or an unassigned value (`none`) that lend itself as to handle many error conditions without generating errors.
+
+In a function declaration we can specify an [**optional type**](optional_types.md) as our return type. This allows us to either return the expected value or the special value `none` to indicate that no value was returned. To create an optional type we just prefix the return type with a `?`.
 
 {class:v-play}
 ```v
