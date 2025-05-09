@@ -73,7 +73,7 @@ data := read_file(path) or { '' }
 
 Inside the `or { ... }` block we also have access to the special variable `err` that holds the error returned. Using the `err` variable we could:
 
-- Propagate the error by returning the `err` to the calling function.
+Propagate the error by returning the `err` to the calling function.
 
 ```v
 data := read_file(path) or { 
@@ -82,7 +82,7 @@ data := read_file(path) or {
 }
 ```
 
-- Inspect the error code to decide how to handle the error.
+Inspect the error code to decide how to handle the error.
 
 ```v
 data := read_file(path) or { 
@@ -100,7 +100,7 @@ data := read_file(path) or {
 }
 ```
 
-- We can use `panic()` to abort our execution.
+We can use `panic()` to abort our execution.
 
 ```v
 data := read_file(path) or { 
