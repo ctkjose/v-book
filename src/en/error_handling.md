@@ -5,7 +5,7 @@
 
 Error handling is how a program deals with problems that happen while it’s running: like missing files, bad user input, or a network being down. Imagine you’re using an app and try to open a file that doesn’t exist. Without error handling, the app might just crash. But with good error handling, we can identify the issue, inform the user and take proper actions.
 
-In **V**, error handling is explicit and visible. bla bla...
+
 
 # Error Type {menu:topics}
 
@@ -28,14 +28,13 @@ In our example we used `error(message)` to create our error and assigned this er
 Unless you need specialized handling of errors or information beyond the message and code these functions will be more than enough to write robust error handling in **V**. By no means you are limited to these you can always roll your own [custom error](#ierror_interface).
 
 
-
 # Handling errors with a result type {menu:topics:menu-caption:Result Type}
 
-In a [**result type**](https://en.wikipedia.org/wiki/Result_type) we can have a function that returns a value on success, or a **error type** on failure.
+Using a [**result type**](https://en.wikipedia.org/wiki/Result_type) we can have a function that returns a value on success, or a **error type** on failure.
 
 > A Result Type is a functional programming construct where it acts as a container that holds either: a successful value, or an error.
 
-To turn the return data type of a function into a *result type* we just prefix the type with `!`. For example if my return type is `string`, then `!string` is the equivalent result type.
+In **V**, the return type of a function is easily  converted to a *result type* by just prefixing the type with `!`. For example if my return type is `string`, then `!string` is the equivalent result type.
 
 {class:v-play}
 ```v
@@ -57,8 +56,58 @@ fn main(){
 	println(data)
 }
 ```
-explain here...
 
+In this example `read_file()` may return a `string` or an error (`MessageError`). In **V**, the error handling is explicit and we the programmer are required to handle the error else our program will not compile. There are a couple of ways to do this.
+
+## OR Block {menu:topics}
+
+In our example When we call the function `read_file()` we use an `or { ... }` block to handle the error. Like other control structures the `or { ... }` allows to put code inside the curly braces that will be executed when the function execution returns an error. 
+
+You can think of the **or** as sort of short hand if, the right side of the **or** is executed when the left side returns an error. 
+
+In this example if our program can handle an empty `data` we can use a simpler `or { ... }` block where we just return an initial value that will be assigned to `data`. Doing this we ensure that `data` will always have a valid `string` value and not an error.
+
+```v
+data := read_file(path) or { '' }
+```
+
+Inside the `or { ... }` block we also have access to the special variable `err` that holds the error returned. Using the `err` variable we could:
+
+- Propagate the error by returning the `err` to the calling function.
+
+```v
+data := read_file(path) or { 
+	println("ERROR OCURRED:" + err.msg() )
+	return err
+}
+```
+
+- Inspect the error code to decide how to handle the error.
+```v
+data := read_file(path) or { 
+	if  err.code() == 20 {
+		println('Doing something else...')
+		//handle this error
+	} else if err.code() == 21 {
+		//handle this error
+		println('Need to do special things here...')
+	} else {
+		println('Unable to read file')
+		println(err.msg())
+		exit(1)
+	}
+}
+```
+
+- We can use `panic()` to abort our execution.
+```v
+data := read_file(path) or { 
+	panic(err)
+}
+```
+
+Lets see another example using some of these strategies:
+ 
 {class:v-play}
 ```v
 fn read_file(path string) !string {
