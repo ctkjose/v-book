@@ -293,7 +293,7 @@ fn main() {
 
 ## Composing Structures {menu:topics}
 
-Using struct composition a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)) in OOP
+Using struct composition a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%28) in OOP.
 
 ```v
 // File main.v

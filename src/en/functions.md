@@ -77,24 +77,35 @@ The `greet` function now requires two arguments, the name of the person to greet
 
 ### Mutability of arguments  {menu:topics}
 
-In a function **ALL** arguments are immutable by default, that is we can not modify them inside our function. 
+In a function **ALL** arguments are immutable by default, that is we can not modify them inside our function. We have to explicitly tell the compiler our intent to modify something.
 
 > **IMPORTANT** V doesn't allow the modification of arguments with primitive types (e.g. strings, integers). Only more complex types such arrays, interfaces, maps, pointers, structs or their aliases can be modified.
 
-To make an argument mutable we mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
+We mark the function parameter as mutable by prefixing the variable with the **access modifier**  `mut`.
 
 ```v
-fn multiply_by_2(mut arr []int) {
-    for i in 0 .. arr.len {
-        arr[i] *= 2
+fn multiply_by_2(mut data []int) {
+    for i in 0 .. data.len {
+        data[i] *= 2
     }
 }
+```
+Here, we made our intent to modify the argument explicitly known to the compiler by prefixing the parameter `data` with the modifier `mut`.
+
+We are not done yet. When calling our function, we must ensure not only that the arguments we are passing are mutable, but also that we explicitly indicate to the compiler that they can be modified. Let’s see an example of calling the `multiply_by_2()` function.
+
+```v
 fn main() {
     mut nums := [1, 2, 3]
     multiply_by_2(mut nums)
     println(nums) // Outputs "[2, 4, 6]"
 }
 ```
+Notice that when we call `multiply_by_2()` we added the modifier `mut` to the argument `nums` to match our `mut data`.
+
+This is an agreement between the function definition declaring that it may modify a parameter and the caller confirming that it is passing a modifiable argument.
+
+> When working with struct's methods (functions) there is also additional syntax involved when modifying the struct's fields. See [structs](./structs.md) to learn more.
 
 ## Returning values  {menu:topics}
 
@@ -192,12 +203,10 @@ fn main(){
 In this example we use `error_with_code()` to add an error code to our error, by default the error code is `0`. In our assignment we check the error code and return the string `"Really no shame!"` if the string was `"go"` else we return an empty string.
 
  
-In some instances we just need to raise an error on a function that does not return a value.
+In some instances we just need to raise an error on a function that does not return a value. To do so we just add the `!` without a return type.
 
 {class:v-play}
 ```v
-
-
 fn do_something(id int) ! {
     if (id == 1) {
         return error("The id was invalid")
@@ -218,6 +227,7 @@ fn main(){
         ok = false
     }
 }
+```
 
 ## Returning multiple values {menu:topics}
 
