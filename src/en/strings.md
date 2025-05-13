@@ -49,7 +49,7 @@ Any operation on strings produce a new string.
 In **V**, strings have fields and methods similar to [structs](./structs.md) that we can use to inspect or operate on strings.
 
 
-## Length {menu:topics;class:v-member-string}
+## Property Length {menu:topics;class:v-member-string}
 
 The length of a string (number of bytes) can be obtained using the `.len` field.
 
