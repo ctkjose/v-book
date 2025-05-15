@@ -162,7 +162,7 @@ fn main(){
 
 ## Length Property {menu:topics;class:v-member-string}
 
-The length of a string (number of bytes) can be obtained using the `.len` field.
+The length of a string (number of bytes) can be obtained using the `.len` field. The `len` property is useful to check if a string is not empty.
 
 {class:v-play}
 ```v
@@ -175,8 +175,6 @@ fn main(){
 	}
 }
 ```
-
-In this example, we use the [structs](./structs.md) syntax to operate on a string. **Notice** that the string length is 10 and not 7, this is because the `len` property counts bytes and not characters.
 
 
 ## Encodings and Code Points {menu:topics;menu-id:encodings}
