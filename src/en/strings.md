@@ -8,6 +8,7 @@ In **V**, a string is a sequence of characters used to represent text.
 
 V uses the [UTF-8](https://en.wikipedia.org/wiki/UTF-8) encoding for strings. We will dive deeper into [unicode and encodings](#encodings) later, but for now, let's starts with a simple overview of UTF-8. In early computing history, we had one-byte character systems that were limited to 256 symbols, mostly used for the Latin characters and basic symbols. UTF-8 is a multi-byte system that allows us to represent thousands of symbols needed for all the languages and it even has space left for emojis.
 
+For now we can think of the string variables as a series of bytes ('u8'). However, it's important to note that not all characters use one byte. In fact, only the traditional 127 Latin characters of [ASCII](https://en.wikipedia.org/wiki/ASCII) use a single byte, everything else is multiple bytes (two or more).
 
 # Creating Strings {menu:topics}
 
@@ -37,7 +38,74 @@ fn main(){
 }
 ```
 
-For now we can think of the string variables as a series of bytes ('u8'). However, it's important to note that not all characters use one byte. In fact, only the traditional 127 Latin characters of [ASCII](https://en.wikipedia.org/wiki/ASCII) use a single byte, everything else is multiple bytes (two or more).
+## Escaping sequences
+
+In **V**, escape sequences are special character combinations preceded by a backslash `\`. They are used to represent characters that are difficult or impossible to type directly within string literals. 
+
+A common use of escape sequences is to include a single quote inside a single-quoted string or a double quote inside a double-quoted string. In such cases, we prefix the quote with a backslash (`\`) to tell the compiler to treat it as a regular character, not as a string delimiter.
+
+{class:v-play}
+```v
+fn main(){
+	mut msg := 'V\'s library are awesome!!!'
+	println(msg)
+}
+```
+
+To add a newline character we use the escape sequence `\n` on Mac\Linux and `\r\n` on Windows:
+
+{class:v-play}
+```v
+fn main(){
+	mut msg := 'Hi there!.\nWelcome to the V community...'
+	println(msg)
+}
+```
+
+Another useful escape sequence is the hexadecimal escape sequence `\x####` that we can use to represent raw bytes in a string. For example the character `J` is the number 74 in UTF-8 which is `4A` in hexadecimal, we can use an escape sequence `\x4a` to add the byte in the string.
+
+{class:v-play}
+```v
+fn main(){
+	mut s := 'Hi \x4aose' //<-- will output "Hi Jose"
+	println(s)
+}
+```
+
+In this example, we use `\x4A` to insert the byte corresponding to the character `J`. While this works, it’s not the best practice for representing characters. The `\x` escape sequence is more suitable for working with raw binary data.
+
+To represent characters, it’s better to use the Unicode escape sequence `\u####`, which allows you to express any 16-bit Unicode character. In our example, the letter `J` has the code point *U+004A*, so we can use the escape sequence `\u004A` instead.
+
+{class:v-play}
+```v
+fn main(){
+	mut s := 'Hi \u004A\u006F\u0065' //<-- will output "Hi Joe"
+	println(s)
+}
+```
+
+> **Sorry!** Only 16-bit unicode characters can be used with `\u`;  Emojis and others characters that use more than two bytes are not supported.
+
+Here's a table of the common escape sequences in **V**:
+
+| Escape Sequence | Description |
+| --- | --- |
+| `\n` | Newline, Moves the cursor to the beginning of the next line. |
+| `\r` | Carriage return, Moves the cursor to the beginning of the current 1  line (without advancing). |
+| `\t` | Horizontal tab, Moves the cursor to the next horizontal tab stop. |
+| `\v` | Vertical tab, Moves the cursor to the next vertical tab 2  stop (behavior can vary). |
+| `\b` | Backspace, Moves the cursor one position backward. |
+| `\f` | Form feed, Advances the printer to the next logical page (behavior can vary). |
+| `\\` | Backslash, Represents a literal backslash character. |
+| `\'` | Single quote, Represents a literal single quote character (used within single quotes). |
+| `\"` | Double quote, Represents a literal double quote character (used within double quotes). |
+| `\?` | Question mark, Represents a literal question mark character (useful to avoid trigraphs). |
+| `\0` | Null character, Represents the null terminator, often used to mark the end of a string. |
+| `\a` | Alert (bell), Produces an audible or visible alert (behavior depends on the system). |
+| `\uhhhh` | Unicode code-point, Represents any 16-bit (2 bytes) unicode characters with the hexadecimal value hhhh of the code-point (e.g., \u0041 is 'A'). |
+| `\xhh` | Hexadecimal value, Represents a character with the hexadecimal value hh (e.g., \x41 is 'A'). |
+| `\ooo` | Octal value, Represents a character with the octal value ooo (e.g., \101 is 'A'). |
+
 
 # Mutability of strings {menu:topics}
 
@@ -51,9 +119,9 @@ fn main(){
 ```
 In **V**, strings are immutable; the data of the string itself can not be modified. However, this is different to the mutability of the variable holding the string data. As we saw in the previous example, we can assign a new string to a variable if we declare the [variable](./variables.md) with `mut`.
 
-Any operation on strings produces a new string. 
+Any operation on strings always produces a new string and that's ok for most programs we write. For critical performance we will look into a string builder that is optimized for memory use and speed.
 
-# String concatenation and interpolation {menu:topics}
+# String concatenation and interpolation {menu:topics;menu-id:concatenation}
 
 The process of combining/adding two or multiple strings to form a single string is called concatenation. The simplest way to concatenate strings in **V** is using the `+` operator.
 
@@ -72,8 +140,7 @@ With a mutable string variable we can use the append operator `+=` to add a stri
 
 {class:v-play}
 ```v
-fn main(){	
-	
+fn main(){
 	mut message := 'Hello '
 	message += 'Joe'
 	println(message) //<-- Outputs "Hello Joe"
@@ -108,11 +175,11 @@ fn main(){
 	}
 }
 ```
-In this example, we use the [structs](./structs.md) syntax to operate on a string. **Notice** that the string length is 10 and not 7, this is because the `len` property counts bytes and not characters. 
+
+In this example, we use the [structs](./structs.md) syntax to operate on a string. **Notice** that the string length is 10 and not 7, this is because the `len` property counts bytes and not characters.
 
 
-
-## Encodings and Code Points {menu:topics:menu-id:encodings}
+## Encodings and Code Points {menu:topics;menu-id:encodings}
 
 In **V**, **strings** are just a sequence of bytes for example the string "hello" is made of the corresponding 4 bytes (where a byte is `u8` number) for each character on the string, in this case `"h"=104 (0x68)`, `"e"=101 (0x65)`, `"l"=108 (0x6C)`, `"l"=108 (0x6C)`, `"o"=111 (0x6F)`. 
 
@@ -147,17 +214,62 @@ In **V**, we use the syntax &#96;🌎&#96; to represent **runes**.
 
 {class:v-play}
 ```v
-s := '🌎' //<-- this is a string with unicode characters
+fn main(){
+	s := '🌎' //<-- this is a string with unicode characters
 
-rune := &#96;🌎&#96; //<-- a rune
+	rune := &#96;🌎&#96; //<-- this is a rune
+}
 
 ```
 
+We can convert a string into an [array](/.arrays.md) of runes using the `.runes()` method on a string. Lets see an example:
+
+{class:v-play}
+```v
+fn main(){
+	msg := 'hello 🌎'
+	mut u_msg := msg.runes;
+
+	println(u_msg[6]) //<-- output 🌎
+}
+```
+
+In the example, we created the variable `u_msg` to hold the array of runes. Now we can access multi-byte characters by their index. The 🌎 emoji is at position 6 on the string `msg`, so we use `u_msg[6]` to access the rune at that position.
+
+When manipulating a string that may include multi-byte unicode characters we want to use the runes array instead. Since the runes is just another [array](./arrays.md) we can do all the basic array operations on it.
+
+Lets see an example of how to get the length of a unicode strings:
+
+{class:v-play}
+```v
+fn main(){
+	msg := 'hello 🌎'
+	println(msg.length) //<-- prints 10 (bytes)...
+	
+	mut u_msg := msg.runes;
+	println(u_msg.len) //<-- prints 7 (characters)...
+}
+```
+
+Another useful feature of arrays that we use with strings is slicing.
+
+{class:v-play}
+```v
+fn main(){
+	mut u_msg := msg.runes;
+	
+	part :=  u_msg[0..5]
+	println(part) //<-- prints the array ['h','e','l','l','o']
+	
+	s := part.string()
+	println(s) //<-- outputs "hello"	
+}
+```
+
+In this example the slice `[0..5]` grabs 5 runes starting at position 0 and returns a new array of 5 runes. Later we use the method `.string()` to convert a runes array back to a string.
 
 
-
-
-# Inspecting and Manipulating {menu:topics}
+# More on  {menu:topics}
 
 In **V**, strings have fields and methods similar to [structs](./structs.md) that we can use to inspect or operate on strings.
 

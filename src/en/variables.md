@@ -139,7 +139,7 @@ We can explicitly tell the compiler the type we want. For instance the following
 
 ```v
 fn main() {
-	mut temperature := 36.6 //<-- inferred a 32 bits floating point
+	mut temperature := 36.6 //<-- inferred a 64 bits floating point
 	println(temperature); //<-- prints the value
 	println("The data type of temperature is: " + typeof(temperature).name )
 }
@@ -150,38 +150,16 @@ We modify our `temperature` declaration to specify the type. Our code will now l
 {class:v-play}
 ```v
 fn main() {
-	mut temperature := f64(36.60) //<-- explicit 64 bits floating point
+	mut temperature := f32(36.60) //<-- explicit 32 bits floating point
 	println(temperature);
 }
 ```
-
-# Variable scope {menu:topics}
-
-The scope of a variable determines where in your code that variable can be accessed. In **V**, variables are scoped to the block of code where they are declared (e.g., within a function or a for loop).
-
-
-{class:v-play}
-```v
-fn my_function() {
-	x := 10
-	println(x) // x is accessible here
-}
-
-fn main() {
-	my_function() //<-- call function
-	
-	println(x) //<-- compile error, x is out of scope
-}
-
-```
-
-You will learn more about scope as we progress through the book.
 
 # Numeric Types {menu:topics}
 
 Numbers are divided into two groups **whole numbers** (such as 125) and numbers with **decimals** (such as 236.25). Whole numbers are called **integers** and numbers with fractional parts are **floats** (short for floating point numbers).
 
-> Integers use the basic type `int` and floats use `f32`.
+> Integers use the basic type `int` and floats use `f64`.
 
 In addition number can always have a positive value or either be positive or negative. We refer to this as is the number **unsigned** or **signed**. Integers that can only be positive are **unsigned integers** and values that can be either are **signed integers**. Floating point numbers are always signed.
 
@@ -226,3 +204,61 @@ Literal numbers in binary start with `0b`.
 carriage_return := 0b1101  //<-- 13
 line_feed := 0o1010 //<-- 10
 ```
+
+# Arrays
+
+(to rewrite) An array is a collection of data elements of the same type. An array literal is a list of expressions surrounded by square brackets. An individual element can be accessed using an index expression. Indexes start from 0:
+
+{class:v-play}
+```v
+fn main(){
+	mut nums := [1, 2, 3]
+	
+	println(nums) // `[1, 2, 3]`
+	println(nums[0]) // `1`
+	println(nums[1]) // `2`
+
+	nums[1] = 5
+	println(nums) // `[1, 5, 3]`
+}
+```
+
+An element can be appended to the end of an array using the push operator `<<`. It can also append an entire array.
+
+{class:v-play}
+```v
+fn main(){
+	mut nums := [1, 2, 3]
+	
+	nums << 4
+	println(nums) // "[1, 2, 3, 4]"
+
+	// append array
+	nums << [5, 6, 7]
+	println(nums) // "[1, 2, 3, 4, 5, 6, 7]"
+}
+```
+
+
+
+# Variable scope {menu:topics}
+
+The scope of a variable determines where in your code that variable can be accessed. In **V**, variables are scoped to the block of code where they are declared (e.g., within a function or a for loop).
+
+
+{class:v-play}
+```v
+fn my_function() {
+	x := 10
+	println(x) // x is accessible here
+}
+
+fn main() {
+	my_function() //<-- call function
+	
+	println(x) //<-- compile error, x is out of scope
+}
+
+```
+
+You will learn more about scope as we progress through the book.
