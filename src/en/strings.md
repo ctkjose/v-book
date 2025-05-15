@@ -80,7 +80,7 @@ fn main(){
 }
 ```
 
-When doing concatenation the receiving variable must be a string or a new variable being declare. Both of the values being concatenated must be strings, **V** does not do implicit type conversion.
+When doing concatenation the receiving variable must be a string or a new variable being declare. Both values must be strings, **V** does not do implicit type conversion.
 
 To concatenate numbers or other values we must convert does values to string first. Numbers in V implement the method `.str()` to convert them to a string. Lets see an example:
 
