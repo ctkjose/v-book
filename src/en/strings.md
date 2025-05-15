@@ -148,10 +148,9 @@ In **V**, we use the syntax &#96;🌎&#96; to represent **runes**.
 {class:v-play}
 ```v
 s := '🌎' //<-- this is a string with unicode characters
-println(s.len) //<-- will ouput 4 bytes
 
-abyte := &#96;🌎&#96; //<-- get byte at position 6
-println(abyte) //<-- will output the byte value 240  (0xF0)
+rune := &#96;🌎&#96; //<-- a rune
+
 ```
 
 
