@@ -34,7 +34,7 @@ struct User {
 }
 ```
 
-## Using a structure {menu:topics}
+# Using a structure {menu:topics}
 
 When we define a structure we created a new **named type**. The name of the type is the name of the struct like for example `User` . We use our new type to create instances of our structure and we assign this instance to a variable. Lets see an example of how to create an instance:
 
@@ -61,7 +61,7 @@ println("User is " + user.email)
 
 Notice how in the above example we only pass two values when we create our new instance of `User`. To tell V which value corresponds to which field we add the name of the field followed by the colon `:`, for example `email: 'joe.doe@mail.com'`.
 
-### Making a field required {menu:topics}
+## Making a field required {menu:topics}
 In some instances we want to make sure that a particular field always has a valid value when a new instance is created. For example a new instance of a `User` must always have the user's email. We can tell V to make a particular field required with the `[required]` attribute. Lets revisit our `User` structure and make the field `email` required:
 ```v
 struct User {
@@ -73,7 +73,7 @@ struct User {
 }
 ```
 
-### Accessing fields {menu:topics}
+## Accessing fields {menu:topics}
 We use the `.` to access a field value.  For example:
 ```
 email := user.email
@@ -82,7 +82,7 @@ if !user.activated {
 }
 ```
 
-## Visibility and mutability {menu:topics}
+# Visibility and mutability {menu:topics}
 Visibility and mutability are two important concepts that we need to understand when using our structures. Visibility refeers to where is our structure accesible and mutability is what can be modified. By default the V compiler will produce the simplests and safer code, that means that:
 
 First structures are only visible in the module they were created, our structure is **local** to the module. 
@@ -93,7 +93,7 @@ Second once our structure instance is created the values can not be modified, th
 
 In V we explicitly control when a structure's field is mutable, when the structure itself is mutable and when we expose our structure to other modules.
 
-### Mutability {menu:topics}
+## Mutability {menu:topics}
 In V we need to explicitly tell when we want to change a value (or mutate). We can recall that we make a variable mutable by prefixing the variable with the **access modifier**  `mut`.  This is also true for structure instances.          
 
 > It’s good practice to create immutable values in all cases where the variable doesn’t need to change. Immutable values make safer code, allows the compiler to better optimize our code and play nicely in concurrent tasks.
@@ -127,7 +127,7 @@ user.quota_size = 500
 user.date_created = '20/JAN/2024' //<--- bad!!, compiler error
 ```
 
-### Visibility {menu:topics}
+## Visibility {menu:topics}
 
 A structure is only visible under the module namespace it is defined.  For example lets say that our `User` structure is part of a library that we are building to manage user accounts. We are gonna code our functionality under the module namespace "accounts".  We add the line `module accounts` in the top of our source code file to define the module our code belongs to.
 
@@ -205,7 +205,7 @@ fn main(){
 }
 ```
 
-## Methods {menu:topics}
+# Methods {menu:topics}
 
 A method is just a [function](functions.md) that we bound (associate) to a structure. We associate a function to structure by adding a receiver argument to a function. Let's start by looking at a regular function that takes a structure as an argument:
 
@@ -289,16 +289,12 @@ There are a couple of rules when creating a function bounded to a structure that
 - The structure must be defined before we can define a method for the structure.
 
 
+# Structure embedding {menu:topics}
 
+Using **struct embedding** a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%28) in OOP.
 
-
-## Composing Structures {menu:topics}
-
-Using struct composition a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%28) in OOP.
-
+{class:v-play}
 ```v
-// File main.v
-
 struct Point {
 mut:
     x int
@@ -337,7 +333,15 @@ fn main() {
 }
 ```
 
-In our `main()` function notice that fields and methods defined in the `Point` and `Size` structs are now avilable as part of the `Button` structure.
+With **field promotion** the fields of the embedded structs (like `Point`, `Size`), are "promoted" to the embedding struct `Button`. This means you can access them directly on an instance of the outer struct as if they were its own fields. For example, the field `btn.x` comes from `Point.x`.
+
+Embedding also promotes the methods also. Like in our example we can use the method `Size.resize()` with `Button`.
+
+> Struct Embedding is a form of composition where we have a **"has-a" relationship** "Is-A" rather than classical inheritance ("is-a" relationship).
+
+If there's a name conflict (e.g., `Button` also had a field named `x`), or if you explicitly want to refer to the embedded struct as a whole, you can use its **type name** as the field name (e.g., `btn.Point`). This resolves ambiguity.
+
+A struct can embed multiple other structs. Fields and methods from all embedded structs will be promoted, but you'll need to use the explicit type name access if there are naming collisions between the embedded structs.
 
 the error cannot define new methods on non-local type Error occurs because Error is a V builtin, thus already defined (non-locally), and you cannot add a new method to that here.
 
