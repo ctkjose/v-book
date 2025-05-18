@@ -339,7 +339,7 @@ With **field promotion** the fields of the embedded structs (like `Point`, `Size
 
 Embedding also promotes the methods. In our example, we can use the method `Size.resize()` with `Button`.
 
-{menu:topics;menu-id:nameres;menu-caption:Name Conflicts}
+## Name Conflicts {menu:topics;menu-id:nameres}
 If there's a name conflict (e.g., `Button` also had a field named `x`), or if you explicitly want to refer to the embedded struct as a whole, you can use its **type name** as the field name (e.g., `btn.Point`). This resolves ambiguity.
 
 A struct can embed multiple other structs. Fields and methods from all embedded structs will be promoted, but you'll need to use the explicit type name access if there are naming collisions between the embedded structs.
