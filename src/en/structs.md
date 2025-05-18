@@ -184,9 +184,32 @@ pub struct User {
 In the above example we have three sections. The default section for inmutable fields in this case only `data_created` is inmutable. The `mut:` marks the start of the mutable fields. In this example we only make the field `need_password_reset` mutable, which means that we can only modify this field inside code that belongs to the **accounts** module. Then we added a third section `pub mut:` as you may have already guess it, this is the section for fields that have a **public** visibility and are also **mutable**.  Now code outside of our accounts module can modife the fields  `email`, `quota_size` and `activated`.
 
 We also have a section for fields that are **public** but **inmutable** for example lets make the field `date_created` visible outside of the accounts module:
+
+
+{class:v-play}
 ```v
-// File accounts.v
-module accounts
+pub struct User {
+  pub:
+    date_created string
+  mut:
+    need_password_reset bool
+  pub mut:
+    email string @[required]
+    quota_size int = 1000
+    activated bool = true
+}
+fn main(){
+  // create an instance of our struct
+  mut user := User{email:'joe.doe@mail.com'}
+  println(user)
+}
+```
+
+## Methods {menu:topics}
+A method is just a [function](functions.md) that we bound (associate) to a structure. We associate a function to structure by adding a receiver argument to a function. Let's start by looking at a regular function that takes a structure as an argument:
+
+{class:v-play}
+```v
 
 pub struct User {
   pub:
@@ -198,13 +221,6 @@ pub struct User {
     quota_size int = 1000
     activated bool = true
 }
-```
-
-## Methods {menu:topics}
-A method is just a [function](functions.md) that we bound (associate) to a structure. We associate a function to structure by adding a receiver argument to a function. Let's start with a regular function that does something with a structure:
-```v
-// File main.v
-import accounts
 
 // define function that takes a User as an argument
 fn set_quota(mut usr accounts.User, size int){
@@ -213,21 +229,24 @@ fn set_quota(mut usr accounts.User, size int){
 
 fn main(){
   // create an instance of our struct
-  mut user := accounts.User{email:'joe.doe@mail.com'}
+  mut user := User{email:'joe.doe@mail.com'}
 
   // call our function and pass our User instance
   set_quota(user, 500)
+  
+  println(user)
 }
 ```
+We use the `set_quota()` function to set the value of the quota on a user ( an `User` struct). In our example we called the function like this `set_quota(user, 500)`. This works perfectly fine!
 
-> Notice that in our `set_quota()` function the`usr` parameter is tagged with `mut` to make it mutable inside our function. When we created our `User` instance `mut user` we made it mutable only inside the function `main`, we have to explicitly tell the V compiler that a function will modify a structure passed as an argument.
 
-To bound our `set_quota()` function to user we are going to change the function to use a receiver parameter:
+> Notice that in our `set_quota()` function the `usr` parameter is tagged with `mut` to make it mutable inside our function, even if the varibale `user` in the function main is already declared with `mut`. In **V** we have to explicitly tell the compiler that a function will modify a structure passed as an argument.
+
+Now, here comes the cool part: a **Structure Method** (the geek term is Uniform Function Call Syntax - UFCS), is like a super convenient shortcut where you pretend that the `set_quota()` function is actually built into the `User` structure itself. Instead of writing: `set_quota(user, 500)` we could use `user.set_quota(500)`.
+
+To convert our `set_quota()` function to use UFCS we just need to change the function declaration to use a receiver parameter:
 
 ```v
-// File accounts.v
-module accounts
-
 pub struct User {
   // fields omitted ...
 }
@@ -241,30 +260,30 @@ pub fn (mut usr User) set_quota(size int){
 
 ```
 
-Notice a new syntax used in the `set_quota` function. The receiver parameter is defined inside parenthesis before the actual function signature. In our example the receiver parameter is `(mut usr User)` , inside our function we have available a variable named `usr` which is a mutable instance of the structure `User`. The function `set_quota`  now behaves like a member of the `User` structure.
+Notice the new syntax used in the `set_quota` function. The receiver parameter is defined inside parenthesis before the actual function signature. In our example the receiver parameter is `(mut usr User)`. Here, we are creating a mutable variable named `usr` of type `User`. When the function is executed we can use the `usr` variable inside the function code.
 
-The visibility rules also apply to the structure's methods. We add `pub` keyword to be able to invoke our method from outside the accounts module.
+Now we can access the function `set_quota` the same way we access the struct's fields. In our example we used `user.set_quota(500)` to invoke the function. The variable `user` becomes the "receiver" and inside our function our variable `usr` will point to the receiver `user`.
 
-From our main code we can now use the `set_quota()` function like this:
 ```v
-// File main.v
-import accounts
-
 fn main(){
   // create an instance of our struct
-  mut user := accounts.User{email:'joe.doe@mail.com'}
+  mut user := User{email:'joe.doe@mail.com'}
 
-  // call the set_quota function on the structure instance user
+  // call our function using the method syntax...
   user.set_quota(500)
+  
+  println(user)
 }
 ```
+
+> The visibility rules also apply to the structure's methods. We add `pub` keyword to be able to invoke our method from other files. For example if we place our `User` struct on its own separate file like "accounts.v" (creates a module named accounts).
 
 There are a couple of rules when creating a function bounded to a structure that you need to follow:
 
 - The function must be declared under the same module as the structure.
 - The structure must be defined before we can define a method for the structure.
 
-### SIDE NOTE: Understanding function receivers and Uniform Function Call Syntax
+### GEEK-OUT: Understanding function receivers and Uniform Function Call Syntax
 
 While the syntax of associating a function to a struct looks a lot like OOP (object-oriented programming) syntax and semantics in reality what V implements are [Uniform Function Call Syntax (UFCS)](https://en.wikipedia.org/wiki/Uniform_Function_Call_Syntax#Rust_usage_of_the_term). Uniform Function Call Syntax (UFCS) is a programming language feature that allows functions to be called using a dot notation similar to what you have in object-oriented languages. Fun fact the dot notation predates OOP and is widley used by many procedural languages to access members of records and structs, for example C, Pascal, Ada, and others. Modern procedural languages like D, Rust, Zig, Go, Elm, Nim and many others implement a notion UFCS. 
 

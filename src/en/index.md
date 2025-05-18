@@ -1,21 +1,22 @@
 **V Book** | [Home](./index.md) | [Translations](./book_versions.md) | V-LANG 0.4.10<BR>
 
-# V Community Book
+# Read.V {menu:topics}
 
-The goal of this project is to provide a comprehensive programming book to learn V regardless if you are new to programming or have prior knowledge in other languages.
+Welcome to **Read.V** a community book for programmers and humans wishing to learn the V Programming Language.
 
-This book is meant to be open and available to as many people as possible. You can join our efforts and help translate this book in your language.
+The goal of this project is to provide a comprehensive book that everybody can enjoy regardless if you are new to programming or have prior knowledge in other languages.
+
 
 # V Lang {menu:topics}
 
  The **V programming language** is an open source language created by `Alexander Medvednikov` and supported by a community or driven individuals.
 
-The [V Language](https://vlang.io) is a young programming language with a very pragmatic approach. It attempts to tackle the same issues as the many modern languages like Go and Rust do, but keeping the language simple, easy to read and to maintain. In fact the V language has similar syntax compared to the popular Go programming language and borrows many popular ideas from languages like Rust, Python, Swift, Kotlin and many others. One distinction we like to make with **V** is that you will like sensible choices made in the language, it's about simplicity, code that is easy to read and advance features that are easy to master.
+The [V Language](https://vlang.io) is a new programming language that prioritizes simplicity and readability while addressing the common concerns tackled by other modern languages such as Go, Zig and Rust. V’s syntax is similar to Go’s while incorporating concepts from languages like Rust, Python, Swift, and Kotlin.
 
-While **V** is still a very young language born outside of Big-Tech it has deliver some robust features and performance in its short life and we cant wait to see what **V** becomes on it's first release.
+V is a very young language developed by a driven community that has delivered a fresh take on modern programming paradigms.
 
 
-> {color:red;icon:alert} This documentation is in its early stages.
+> {color:red;icon:alert} This book is in its early stages.
 
 ## Topics
 

@@ -293,7 +293,7 @@ if err is PathError {
 ```
 
 
-# Discussion
+# Research
 
 `match err {}` or using `err is SomeErrType` and using `None__`
 
@@ -303,3 +303,6 @@ use err.code()
 error(msg)
 error_with_code(msg, code)
 
+
+
+https://discord.com/channels/592103645835821068/592294828432424960/1328181459692814386
