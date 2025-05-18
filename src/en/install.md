@@ -18,14 +18,17 @@ The latest code for V is maintained in a GIT repository. If you plan to work wit
 The official instructions on how to install [git](https://git-scm.com) are available [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
 ### MacOS
+
 On MacOS (Mavericks 10.9 or newer) git is part of [**Xcode or the Command Line Tools**](https://developer.apple.com/xcode/). If this is the first time on the Terminal type `git --version`. If you don’t have it installed already, it will prompt you to install it.
 
 If you have [Homebrew](https://brew.sh) you can also do `brew install git`.
 
 ### Linux
+
 If you are on a Debian-based distribution, such as Ubuntu, the following command usually works: `sudo apt install git-all`.
 
 ### Windows
+
 On Windows you can download the Git installer from [here]( https://git-scm.com/download/win).
 
 
