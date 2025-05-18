@@ -164,7 +164,7 @@ fn main(){
 }
 ```
 
-In V a structure declaration is divided into sections according to the visibility and mutability of fields. We saw the section `mut:` for mutable fields, now we add a couble of additional sections for the possible combinations of visibility and mutability. Lets see an example:
+In V a structure declaration is divided into sections according to the visibility and mutability of fields. We saw the section `mut:` for mutable fields, now we add a couple of additional sections for the possible combinations of visibility and mutability. Lets see an example:
 
 ```v
 // File accounts.v
@@ -206,6 +206,7 @@ fn main(){
 ```
 
 ## Methods {menu:topics}
+
 A method is just a [function](functions.md) that we bound (associate) to a structure. We associate a function to structure by adding a receiver argument to a function. Let's start by looking at a regular function that takes a structure as an argument:
 
 {class:v-play}
@@ -223,7 +224,7 @@ pub struct User {
 }
 
 // define function that takes a User as an argument
-fn set_quota(mut usr accounts.User, size int){
+fn set_quota(mut usr User, size int){
   usr.quota_size = size
 }
 
@@ -237,6 +238,7 @@ fn main(){
   println(user)
 }
 ```
+
 We use the `set_quota()` function to set the value of the quota on a user ( an `User` struct). In our example we called the function like this `set_quota(user, 500)`. This works perfectly fine!
 
 
@@ -262,8 +264,6 @@ pub fn (mut usr User) set_quota(size int){
 
 Notice the new syntax used in the `set_quota` function. The receiver parameter is defined inside parenthesis before the actual function signature. In our example the receiver parameter is `(mut usr User)`. Here, we are creating a mutable variable named `usr` of type `User`. When the function is executed we can use the `usr` variable inside the function code.
 
-Now we can access the function `set_quota` the same way we access the struct's fields. In our example we used `user.set_quota(500)` to invoke the function. The variable `user` becomes the "receiver" and inside our function our variable `usr` will point to the receiver `user`.
-
 ```v
 fn main(){
   // create an instance of our struct
@@ -275,6 +275,9 @@ fn main(){
   println(user)
 }
 ```
+
+Now we can access the function `set_quota` the same way we access the struct's fields. In our example we used `user.set_quota(500)` to invoke the function. The variable `user` becomes the "receiver" and inside our function our variable `usr` will point to the receiver `user`.
+
 
 > The visibility rules also apply to the structure's methods. We add `pub` keyword to be able to invoke our method from other files. For example if we place our `User` struct on its own separate file like "accounts.v" (creates a module named accounts).
 
