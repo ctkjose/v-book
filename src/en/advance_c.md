@@ -34,3 +34,14 @@ fn main() {
 
 
 https://github.com/vlang/v/issues/21760
+
+
+
+# Pointers
+
+V currently does not have references. It has pointers. Pointers have 0 as a valid value, no matter how you call it - NULL, nil etc.
+V also has option types. The valid values of an option type, are none + the set of valid values for the wrapped type. 
+=> In case of pointers, that in combination, means that ?&Type should allow p := ?&Type( unsafe {nil} )
+Imho, anything else is arbitrary bullshit, that can not be justified, except perhaps as an aesthetic choice, in which case fine, but it is dumb, and will complicate things.
+
+https://discord.com/channels/592103645835821068/592320321995014154/1371432151085744158

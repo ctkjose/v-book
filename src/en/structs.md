@@ -415,6 +415,8 @@ fn main() {
 
 We can use the **type names** to access the hierarchy of structs embedded. For example `btn.Rectangle.Point.x` is the named path to the plain `btn.x` and both of these point to the same value. 
 
+One interesting fact about this field name resolution that may not be obvious is that field promotion also occurs on the embedded structs. We can use this as a short-hand to reference an embedded struct fields without having to walk the embedding chain. For example, `btn.Rectangle.Point.x` can be accessed as `btn.Rectangle.x`. 
+
 
 ======
 
