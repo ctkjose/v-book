@@ -289,7 +289,7 @@ There are a couple of rules when creating a function bounded to a structure that
 - The structure must be defined before we can define a method for the structure.
 
 
-# Structure embedding {menu:topics}
+# Structure embedding {menu:topics;menu-id:embedding;menu-caption:Embedding}
 
 Using **struct embedding** a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%28) in OOP.
 
