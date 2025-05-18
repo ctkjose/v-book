@@ -293,6 +293,8 @@ There are a couple of rules when creating a function bounded to a structure that
 
 Using **struct embedding** a structure can use the fields and methods of another structure without having to duplicate them. This makes it easier to manage common behaviors and code reusability while avoiding some of the common pitfalls of [inheritance](https://en.wikipedia.org/wiki/Inheritance_%28object-oriented_programming%28) in OOP.
 
+> Struct Embedding is a form of composition where we have a **"has-a" relationship** rather than classical inheritance with a "is-a" relationship.
+
 {class:v-play}
 ```v
 struct Point {
@@ -335,9 +337,7 @@ fn main() {
 
 With **field promotion** the fields of the embedded structs (like `Point`, `Size`), are "promoted" to the embedding struct `Button`. This means you can access them directly on an instance of the outer struct as if they were its own fields. For example, the field `btn.x` comes from `Point.x`.
 
-Embedding also promotes the methods also. Like in our example we can use the method `Size.resize()` with `Button`.
-
-> Struct Embedding is a form of composition where we have a **"has-a" relationship** "Is-A" rather than classical inheritance ("is-a" relationship).
+Embedding also promotes the methods. In our example, we can use the method `Size.resize()` with `Button`.
 
 If there's a name conflict (e.g., `Button` also had a field named `x`), or if you explicitly want to refer to the embedded struct as a whole, you can use its **type name** as the field name (e.g., `btn.Point`). This resolves ambiguity.
 
