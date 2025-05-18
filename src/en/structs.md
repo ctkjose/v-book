@@ -286,32 +286,38 @@ There are a couple of rules when creating a function bounded to a structure that
 - The function must be declared under the same module as the structure.
 - The structure must be defined before we can define a method for the structure.
 
-### GEEK-OUT: Understanding function receivers and Uniform Function Call Syntax
+### GEEK-OUT: Understanding function receivers and Uniform Function Call Syntax {menu:related;menu-id:ufcs;menu-caption:Uniform Function Call Syntax}
 
-While the syntax of associating a function to a struct looks a lot like OOP (object-oriented programming) syntax and semantics in reality what V implements are [Uniform Function Call Syntax (UFCS)](https://en.wikipedia.org/wiki/Uniform_Function_Call_Syntax#Rust_usage_of_the_term). Uniform Function Call Syntax (UFCS) is a programming language feature that allows functions to be called using a dot notation similar to what you have in object-oriented languages. Fun fact the dot notation predates OOP and is widley used by many procedural languages to access members of records and structs, for example C, Pascal, Ada, and others. Modern procedural languages like D, Rust, Zig, Go, Elm, Nim and many others implement a notion UFCS. 
+While the syntax of associating a function with a struct looks a lot like object-oriented programming (OOP), in reality, what V implements is [Uniform Function Call Syntax (UFCS)](https://en.wikipedia.org/wiki/Uniform_Function_Call_Syntax#Rust_usage_of_the_term).
 
-The actual implementation of UFCS varies by programming languages but the basic convention that we need to understand is that a function is associated to a receiver value usually something very similar to a `struct` type. Once associated any value that matches the data type of the receiver can not use the dot notation to invoke the function.
+Uniform Function Call Syntax (UFCS) is a programming language feature that allows functions to be called using dot notation—similar to what you see in object-oriented languages. Fun fact: dot notation predates OOP and is widely used in many procedural languages to access members of records and structs. Examples include C, Pascal, Ada, and others. Modern procedural languages such as D, Rust, Zig, Go, Elm, and Nim implement some form of UFCS.
 
-The UFCS provides many of the conveniances of OOP dot notation without the complexities of beign force to do OOP, this provides more flexibitlity to developers to adopt the paradigm that work for them while keeping the language simple.
+The actual implementation of UFCS varies between programming languages, but the core idea is the same: a function is associated with a *receiver* value—usually something similar to a `struct` type. Once associated, any value that matches the receiver's data type can use dot notation to invoke the function.
 
-In V the UFCS are used to add a convinient way to call functions on primitive data types like strings, arrays and numbers, structs and interfaces. 
+UFCS provides many of the conveniences of OOP's dot notation without the complexity of being forced into the OOP paradigm. This gives developers more flexibility to choose the programming style that works best for them while keeping the language simple.
 
-If a data type is defined within a scope that you control you can add an associated function to that type. The syntax is always the same:  `(receiver type) fn funcName(<parameter-list>) <return-type>`. You can also do it with other types defined elsewhere but you have to define a **Type Alias** to do so.
+In **V**, UFCS is used to add a convenient way to call functions on primitive data types like strings, arrays, numbers, structs, and interfaces.
+
+If a data type is defined within a scope that you control, you can associate functions with that type. The syntax is always the same:  
+`(receiver Type) fn func_name(<parameter-list>) <return-type>`.  
+You can also do this with types defined elsewhere, but in that case, you must define a **type alias**.
 
 ```v
 type Num = int
 
-//associate the method to the typealias num
+// Associate the method with the type alias `Num`
 fn (mut b Num) double_it() int {
-	return int(b + b) 
+  return int(b + b) 
 }
 
 fn main() {
-	mut score := Num(20)
-	score = score.double_it()
-	println('The score is $score')
+  mut score := Num(20)
+  score = score.double_it()
+  println('The score is $score')
 }
 ```
+
+
 
 ## Composing Structures {menu:topics}
 
