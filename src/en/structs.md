@@ -332,6 +332,8 @@ fn main() {
   btn.y = 10
   //call function resize() from the Size struct
   btn.resize(100, 24)
+  
+  println(btn)
 }
 ```
 
@@ -339,15 +341,115 @@ With **field promotion** the fields of the embedded structs (like `Point`, `Size
 
 Embedding also promotes the methods. In our example, we can use the method `Size.resize()` with `Button`.
 
-## Name Conflicts {menu:topics;menu-id:nameres}
-If there's a name conflict (e.g., `Button` also had a field named `x`), or if you explicitly want to refer to the embedded struct as a whole, you can use its **type name** as the field name (e.g., `btn.Point`). This resolves ambiguity.
+## Shadow structs and name conflicts {menu:topics;menu-id:nameres}
 
-A struct can embed multiple other structs. Fields and methods from all embedded structs will be promoted, but you'll need to use the explicit type name access if there are naming collisions between the embedded structs.
+In **V** we can reference a field promoted from an embedded struct using the **type name** as a sort of namespace.
+
+For example `btn.x` can also be referenced as `btn.Point.x`, the same goes for the method resize which is available as `btn.Size.resize()`.
+
+The **type name** is used often to reference the struct:
+
+```v
+the_size := btn.Size
+println(the_size)
+```
+
+If there's a name conflict (e.g., `Button` also had a field named `x`), you have to use the **type name** to access the field name and resolve the ambiguity.
+
+## Promoting from multiple structs {menu:topics;menu-id:ptree}
+
+Fields are promoted from every struct embedded, this is also true when a struct embeds another struct that itself embeds other structs. Fields and methods from all embedded structs will be promoted.
+
+> Remember you'll need to use the [explicit type name](#nameres) access if there are [naming collisions](#nameres) between the embedded structs.
+
+Lets modify our Button example to add a rectangle structure.
+
+```
+{class:v-play}
+```v
+struct Point {
+pub mut:
+    x int
+    y int
+}
+
+fn (mut p Point) move_to(x int, y int)  {
+    p.x = x
+    p.y = y
+}
+struct Size {
+pub mut:
+    width  int
+    height int
+}
+
+struct Rectangle {
+  Point
+  Size
+}
+
+fn (mut s Size) resize(width int, height int) {
+  s.width = width
+  s.height = height
+}
+
+struct Button {
+    Rectangle
+    title string
+}
+```
+Notice that we added a new `Rectangle` structure that embeds the `Point` and `Size` structures. We modified our `Button` to only embed the `Rectangle` structure. All the fields embedded by `Rectangle` are promoted to our `Button` therefore we can run our original `main()` function and everything still works!
+
+```v
+fn main() {
+  mut btn := Button{title:"Ok"}
+  // fields primitives from the Rectangle.Point struct
+  btn.x = 20
+  btn.y = 10
+  //call function resize() from the Rectangle.Size struct
+  btn.resize(100, 24)
+  
+  println(btn)
+}
+```
+
+We can use the **type names** to access the hierarchy of structs embedded. For example `btn.Rectangle.Point.x` is the named path to the plain `btn.x` and both of these point to the same value. 
+
+
+======
+
 
 the error cannot define new methods on non-local type Error occurs because Error is a V builtin, thus already defined (non-locally), and you cannot add a new method to that here.
 
+# More {menu:topics}
 
-### GEEK-OUT: Understanding function receivers and Uniform Function Call Syntax {menu:related;menu-id:ufcs;menu-caption:Uniform Function Call Syntax}
+## Trailing Struct Literal
+
+The **trailing struct literal** is a special short-hand syntax for a function that has a struct as its only parameter. You can omit the curly-braces when constructing a struct at the same time you call the function:
+
+```v
+struct Point {
+mut:
+    x int
+    y int
+}
+
+fn do_this(p as point){
+  
+}
+
+fn main() {
+  
+  do_this({ x:10, y:20 }) //<-- traditional call
+  
+  do_this(x:10, y:20) //<-- shorthand...
+  
+}
+
+```
+
+
+# GEEK-OUT: Understanding function receivers and Uniform Function Call Syntax {menu:related;menu-id:ufcs;menu-caption:Uniform Function Call Syntax}
 
 While the syntax of associating a function with a struct looks a lot like object-oriented programming (OOP), in reality, what V implements is [Uniform Function Call Syntax (UFCS)](https://en.wikipedia.org/wiki/Uniform_Function_Call_Syntax#Rust_usage_of_the_term).
 
