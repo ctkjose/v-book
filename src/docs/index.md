@@ -3,3 +3,8 @@
 
 # Guides and Articles  {menu:topics}
 
+
+
+# Azimuth {menu:topics}
+
+The [V Azimuth](./v_azimuth.md) attempts to provide the readers a better understanding of the ideas behind V, the philosophy and get a sense of the language direction. 
