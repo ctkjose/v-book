@@ -2,7 +2,7 @@
 **V Stuff** | [V.Dev](/index.html) | [Articles](./index.md)<BR>
 # Azimuth  {menu:topics}
 
-Every day we get a new programming language.  Many are created out of curiosity or as learning exercises, while others aim to solve real problems or explore novel ideas. With so many options available, each language brings its own unique concepts and paradigms. As we all know, choosing the "right" language is a question that's specific to the project and often even more personal.
+Every day we get a new programming language.  Many are created out of curiosity or as learning exercises, while others aim to solve real problems or explore novel ideas. With so many options available, each language brings its own unique concepts and paradigms. As we all know, choosing the "right" language is a question that's specific to the project and often even more a personal choice.
 
 Unfortunately, programming languages often give rise to communities that become ideological silos. In these groups, some individuals adopt a dogmatic belief in the superiority of their chosen language, sometimes even attacking others that differ. **V** is yet another language competing for your attention, and more importantly, it is a very young language striving to establish itself. In its early days, the V community became entangled in online drama due to how some of the language's goals and features were communicated. Critics seized on hyperbolic claims and goals, treating them as contractual promises, and some even accused the project of being a scam. In reality, V’s story is not unlike that of many other community-driven projects.
 
