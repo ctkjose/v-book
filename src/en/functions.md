@@ -39,7 +39,7 @@ fn main() {
 }
 ```
 
-## Paramaters & arguments  {menu:topics}
+## Parameters & arguments  {menu:topics}
 
 We use the term **parameters** for the variables that are listed in the function definition, the *parameters list*. They act as placeholders for the values (arguments) that will be passed when the function is called. While **arguments** are the actual values or data that you pass to a function or method when you call it. These values are assigned to the corresponding parameters.
 
