@@ -16,4 +16,14 @@
 | `-pringfn <fn_name>` | Produce the C soure for a given function only. Use in conjuction with `-c`. |
 
 
+# The build system for V
 
+```sh
+v [build flags] ['run'] <target.v|target_directory> [run options]
+```
+
+https://github.com/vlang/v/blob/4dc34650466779e00b037ed0984cdb543440ab6f/vlib/v/help/build/build.txt
+
+
+
+https://lydiandylin.gitbook.io/vlang/mu-lu/module#mo-kuai-sou-suo-lu-jing

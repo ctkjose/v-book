@@ -95,6 +95,16 @@ do_that(){
 
 Visibility only applies to code outside our module. Inside our module both private and public members are visible.
 
+In V the following first level items can be made public:
+
+- `const` constant
+- `enum` enumeration
+- `fn` function/method
+- `struct` structure
+- `union`
+- `interface` interface
+- `type` type alias
+
 
 # Using a module {menu:topics}
 
@@ -151,6 +161,17 @@ In V, modules organized in subdirectories must have the same name as the module.
 
 > Careful: files in a modules folder need to declare the same module name with the `module` keyword at the top of the file.
 
+For clarity we can also create a folder named "modules" in our project and the V builder will search for modules inside this folder. Using a modules folder our project folder would look like this:
+
+```sh
+src/
+  /src/main.v
+  /src/modules/
+    /src/modules/utilities
+	  /src/modules/utilities/utilities.v
+	  /src/modules/utilities/string_utilities.v
+```
+
 ## Sub-modules {menu:topics;menu-id:submodules}
 
 When a module grows in complexity we will want to break the module into sub-modules each doing their very specialized part. We use subdirectories inside our module's folder to organize our sub-modules. 
@@ -204,7 +225,7 @@ For example, code in the file `/src/validations.v` will be available in `/src/ma
 
 The name of a module is unique else the compiler will not know which module a name references. When a module has the same name as another module we can use **aliases** to assign a unique name to one of the modules.
 
-For example I have two modules named "validations" that I need to use in my project. One is found at "/src/utilities/validations" and the other is at "/src/google/validations". If I try to import both doing something like this:
+For example we have two modules named "validations" that we need to use in a project. One is found at "/src/utilities/validations" and the other is at "/src/google/validations". If we try to import both doing something like this:
 
 ```v
 import utilities.validations
@@ -231,27 +252,99 @@ fn main(){
 
 Notice that now we use the name `g_validations` in our code instead of 'validations'.
 
+We can also use aliases to shorten the name of a module. For example a module with a name "files" could be imported as "io".
+
+# Module initialization & cleanup  {menu:topics}
+
+We can add two special function to a module a `init()` and `cleanup()` function. When present the `init()` function is automatically called when the module is imported for the first time. In a similar fashion the `cleanup()` is automatically called when the program exits.
+
+```v
+module mymodule
+
+fn init() {
+	println('from init')
+}
+
+fn cleanup() {
+	println('from cleanup')
+}
+
+pub fn my_fn() {
+	println('from my_fn')
+}
+```
+
+> These function can only be defined once in a module scope.
 
 
+# Packages, sharing modules between projects and with others {menu:topics;menu-id:vmod;menu-caption:Sharing modules}
 
-# Sharing modules between projects and with others {menu:topics;menu-id:vmod;menu-caption:Sharing modules}
+Sharing modules between projects require us to place our modules in a folder where other projects can find them. 
+
+## The V modules folder
+
+V creates the folder `~/.vmodules` by default for storing modules that you want to share between projects. This folder is also used for third-party modules we instal.
+ 
+> The location of the modules folder can be controlled by setting the env variable named `VMODULES`. By default, modules are installed to `~/.vmodules` (`C:\Users\<user id>\.vmodules` on Windows). On MacOS/Linux use `export VMODULES="$HOME/.vmodules"`.
+
+## Specify a search path
+
+V allows us to specify a list of folders where it should search for modules passing the command line argument `-path`. The `path` option must be given before we specify `run` or compile.
+
+The path option is a string argument with paths that V searches for a module. The order in which the paths are listed is the order in which the paths will be searched. The paths are delimited with a pipe `|`. Paths can be relative or absolute. In addition to traditional paths we can include the following special strings:
+
+**@vmodules** - Is a shorthand for the path of the currently configured "vmodules" folder.
+
+**@vlib** - Is the path of V's standard library (vlib).
+
+Lets see some examples:
+
+```sh
+v --path "@vlib|@vmodules|~/Projects/my_v_modules"
+```
+
+In this example we added the path to the folder "my_v_modules" where we keep our personal modules we use. 
+
+```sh
+v --path "~/Projects/my_v_modules|@vlib|@vmodules"
+```
+
+In this example we change the order to get V to use the modules in our "my_v_modules" folder, before it checks for V own modules or modules installed in the modules folder.
 
 
+# Deprecation annotations {menu:topics}
 
+A module can be tagged as **deprecated** using the deprecation annotations.
 
+```v
+@[deprecated: 'use xxx.yyy']
+@[deprecated_after: '2999-01-01']
+module my_old_module
 
+pub fn do_something() {
+	println("@do something...")
+}
+```
 
+//ToDo research behavior...
 
-# Research and junk...
+# Packages {menu:topics}
 
-logical unit that defines the scope of your code. The scope of your code determines where your code is visible.
+In V, **packages** are simply modules that we distribute for other people to use, mainly using V' builtin package manager [VPM](https://vpm.vlang.io).
 
-So the v.mod file is basically saying "look for everything else starting here".
+*TODO Will elaborate in the future...*
+ 
 
-It doesn't even have to have anything in it - it can be a completely empty file.  It just has to exist.
-If it starts looking from the v.mod file and can't find it, then it looks in ~/.vmodules - the central location for installed modules.
-That's when you would need separate v.mod files, as each is installed separately in ~/.vmodules.  Of course, each of them can have their own modules... 🙂
+# Research 
 
-Yep. In V folder == module. It expects V files in those folders to have module <folder name> as the first line. 
+If the module is invalidated, it can be marked by using deprecated or deprecated_after annotations, and the module user will be prompted to invalidate the information when compiling.
 
-In fact, move everything outside the src folder, and delete src. You will have far fewer issues, and will be ahead of the curve when support for src as a special folder is removed.   Individual module folders only need their own v.mod files if they will be published and used as completely separate modules.  
+```v
+@[deprecated: 'use xxx.yyy']
+@[deprecated_after: '2999-01-01']
+module ttt
+
+pub fn f() int {
+	return 1142
+}
+```
