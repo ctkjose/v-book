@@ -29,5 +29,5 @@ V is a very young language developed by a driven community that has delivered a 
 - [Functions](./functions.md)<BR> Declaring and using functions.
 - [Structs](./structs.md)<BR> How to use structures to represent data.
 - [Error Handling](./error_handling.md)<BR> Learn how to handle errors using return types and other error handling strategies.
-- [Modules](./modules.md)<BR> Modules.
+- [Modules](./modules.md)<BR> Learn to write modular programs, organize your code and share code between projects.
 
