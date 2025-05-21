@@ -2,18 +2,15 @@
 **V Stuff** | [V.Dev](/index.html) | [Articles](./index.md)<BR>
 # Azimuth  {menu:topics}
 
-Every day we get a new programming language.  Many are created out of curiosity or as learning exercises, while others aim to solve real problems or explore novel ideas. With so many options available, each language brings its own unique concepts and paradigms. As we all know, choosing the "right" language is a question that's specific to the project and often it's more a thing of personal choice.
+We all joke that every day we get a new programming language. You heard of V and may be wondering if V deserves your attention. V is yet another language in this see of options all claiming some novel ideas..
 
-Unfortunately, programming languages often give rise to communities that become ideological silos. In these groups, some individuals adopt a dogmatic belief in the superiority of their chosen language, sometimes even attacking others that differ. **V** is yet another language competing for your attention, and more importantly, it is a very young language striving to establish itself. In its early days, the V community became entangled in online drama where critics attacked the merits of the project on claims of a deceiving state of the project and its capabilities. In reality, V’s story is not unlike that of many other community-driven languages.
+Unfortunately, programming languages often give rise to communities that become ideological silos. In its early days, the V community became entangled in online drama where critics attacked the merits of the project, and some claimed a deceiving state of the project and its capabilities. In reality, V’s story is not unlike that of many other community-driven languages.
 
 As a young language, V is still defining itself, testing ideas and staying pragmatic about its goals. One challenge the V community faces is that most contributors are focused on developing the language itself, which means communication and documentation often take a back seat.
 
-While the language is not defined, this article is a community attempt at a stop-gap solution. **Azimuth** is written for those seeking to understand the ideas behind V, its philosophy, and its direction.
+While the language is not set on stone, this article is my personal attempt to document the ideas behind V, its philosophy, and its direction.
 
 > Disclaimer: This is not an official communication from the V-Lang Project. Please understand that this article is not a formal dissertation on language design, nor does it offer a systematic comparison of languages and features. It is simply a collection of thoughts and opinions on V's design.
-
-
-
 
 # Syntax
 
