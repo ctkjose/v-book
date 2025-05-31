@@ -11,7 +11,7 @@ https://docs.vlang.io/v-and-c.html#passing-c-compilation-flags
 
 In very particular scenarios, specially when working with critical code that must be optimized we can use the dereference operator `*` in a very similar fashion as we would in C code.
 
-By default V will not allows to dereference pointers, so we have to explicitly mark our code as **unsafe**, which is basically you telling V that you are responsible for the security and correctens of your code.
+By default V will not allows to dereference pointers, so we have to explicitly mark our code as **unsafe**, which is basically you telling V that you are responsible for the security and correctness of your code.
 
 ```v
 fn increment_score(s &int) {
@@ -86,6 +86,122 @@ There are quite a few considerations that settles the decision to use libc.
 - Dynamic linking to the OS's libs produces smaller binaries and reduces internal dependencies.
 
 
+# Clang
+
+## Determining Resource Paths:
+
+When Clang is built, it's configured with a default resource directory.
+
+On macOS, this is often within the Xcode toolchain path if Clang is part of Xcode (e.g., `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/<version>` (versions are like 15.0.0)).
+
+If you install LLVM/Clang separately (e.g., via Homebrew), the resource path would be relative to that installation (e.g., /usr/local/opt/llvm/lib/clang/<version>/ or /opt/homebrew/opt/llvm/lib/clang/<version>/ on Apple Silicon).
+
+The command `clang -print-resource-dir` will tell you the main resource directory Clang is currently configured to use.
+
+
 # musl libc
 
 https://wiki.musl-libc.org/getting-started.html
+
+
+# Cross-compilation
+
+## Current state
+
+` pref.vcross_compiler_name()`
+
+```v
+pref.vcross_compiler_name() {
+    vccname := os.getenv('VCROSS_COMPILER_NAME')
+    if vccname != '' {
+        return vccname
+    }
+    
+    if p.os == .linux {
+        return 'clang'
+    }
+    if p.os == .freebsd {
+        return 'clang'
+    }
+    
+    if p.m64 {
+        return 'x86_64-w64-mingw32-gcc'
+    }
+    return 'i686-w64-mingw32-gcc'
+}
+
+`x86_64-w64-mingw32-gcc`, `i686-w64-mingw32-gcc`
+
+## Mingw-w64
+
+Mingw-w64 is a collection of header files, import libraries, libraries and tools that, when combined with a compiler toolchain, such as GCC or LLVM, provides a complete development environment for building native Windows applications and libraries.
+
+https://github.com/mstorsjo/llvm-mingw 
+
+## Clang
+
+https://clang.llvm.org/docs/CrossCompilation.html
+
+Important commands `clang -print-targets` and `clang -print-supported-cpus`
+```sh
+ctk@EXWMBPROM301 targets % clang -print-targets
+  Registered Targets:
+    aarch64    - AArch64 (little endian)
+    aarch64_32 - AArch64 (little endian ILP32)
+    aarch64_be - AArch64 (big endian)
+    arm        - ARM    <-- 32bits
+    arm64      - ARM64 (little endian)
+    arm64_32   - ARM64 (little endian ILP32)
+    armeb      - ARM (big endian)
+    thumb      - Thumb
+    thumbeb    - Thumb (big endian)
+    x86        - 32-bit X86: Pentium-Pro and above
+    x86-64     - 64-bit X86: EM64T and AMD64
+```
+
+`--target=arm64-apple-darwin23.4.0
+
+`--target=x86_64-pc-linux-gnu`
+
+
+
+
+## Research
+
+https://clang.llvm.org/docs/CrossCompilation.html
+The Zig tool chain is actually the MUSL/CLANG toolchain with all the dependancies included. Zig has its local copy of MUSL.
+
+```
+> C compiler response file "/tmp/v_501/test_waiter.tmp.c.rsp":
+  -fwrapv -g -O0 -o '/Users/ctk/Projects/vlang/tests/test_waiter/test_waiter' -D GC_THREADS=1 -D GC_BUILTIN_ATOMIC=1 -D MPROTECT_VDB=1 -I "/Users/ctk/Projects/vlang/nv/thirdparty/libgc/include" -x objective-c "/tmp/v_501/test_waiter.tmp.c" -x none -std=c99 -D_DEFAULT_SOURCE -Wl,-export_dynamic "/Users/ctk/Projects/vlang/nv/thirdparty/tcc/lib/libgc.a" -ldl -lpthread  
+```
+
+https://mcilloni.ovh/2021/02/09/cxx-cross-clang/
+
+## Existing Tools
+
+- https://github.com/mrexodia/zig-cross
+- https://github.com/mstorsjo/xcode-cross/blob/master/setup-toolchain.sh
+- https://crosstool-ng.github.io/docs/
+- https://github.com/tpoechtrager/osxcross
+- [wclang](https://github.com/tpoechtrager/wclang) targets windows from Linux/Unix using clang.
+- [FiloSottile musl](https://github.com/FiloSottile/homebrew-musl-cross) 
+- https://flyx.org/cross-packaging/
+- https://github.com/martell/ellcc/blob/master/Makefile
+
+
+## VM
+
+- https://github.com/multiarch/crossbuild
+- https://github.com/steeve/cross-compiler/blob/master/README.md
+
+MSYS2 packages to download,
+
+
+
+# Tests
+
+https://mcilloni.ovh/2021/02/09/cxx-cross-clang/
+
+- `--target` switches the LLVM default target (x86_64-pc-linux-gnu)
+- `--sysroot=` forces Clang to assume the specified path as root when searching headers and libraries

@@ -5,6 +5,8 @@
 
 Writing modularized code is important to manage code complexity and maximize code reusability and readability. We separate functionality into distinct pieces of code, usually by purpose or context. In V, **modules** are a way to logically organize and structure code, grouping related functions, types, constants, and other definitions under a single namespace.
 
+V has a distinct and straightforward system for organizing code into module. This system is designed to promote code reusability, maintainability, and a clear project structure.
+
 The natural approach to managing source code is to split it into multiple files. In V, a module builds on this approach by introducing the concept of logical collections of code. Think of a module as a named collection of related code.
 
 When a file is compiled, its code is assigned to a module, either the default module `main` or a module you explicitly specify. Every line of code executed in **V** belongs to a module.
@@ -29,9 +31,9 @@ do_that(){
 }
 ```
 
-We add the keyword `module` to the top of our file. The keyword module is followed by the module's name. The module name follow the same rules as variable's [name](./variables.md). In this example we created the `utilities` module with two functions. All the code defined under the same module name is treated as a single logical unit even if it was defined in different files.
+We add the keyword `module` to the top of our file. The keyword module is followed by the module's name. The module name follow the same rules as variable's [name](./variables.md). In this example `module utilities` will tell the compiler to treat everything in the file as being part of the `utilities` module.
 
-For examples lets pretend I have a lot of utility functions for manipulating strings. I can create another separate file named "string_utilities.v" to further organize our code. 
+All the code defined under the same module name is treated as a single logical unit even if it was defined in different files. For examples lets pretend I have a lot of utility functions for manipulating strings. I can create another separate file named "string_utilities.v" to further organize our code. 
 
 ```v
 // File: string_utilities.v
@@ -161,6 +163,7 @@ In V, modules organized in subdirectories must have the same name as the module.
 
 > Careful: files in a modules folder need to declare the same module name with the `module` keyword at the top of the file.
 
+## Modules folder
 For clarity we can also create a folder named "modules" in our project and the V builder will search for modules inside this folder. Using a modules folder our project folder would look like this:
 
 ```sh
@@ -336,6 +339,8 @@ In V, **packages** are simply modules that we distribute for other people to use
  
 
 # Research 
+
+imported types must start with a capital letter
 
 If the module is invalidated, it can be marked by using deprecated or deprecated_after annotations, and the module user will be prompted to invalidate the information when compiling.
 

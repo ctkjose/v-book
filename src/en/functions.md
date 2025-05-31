@@ -275,7 +275,8 @@ fn main() {
 
 ## Variable number of arguments  {menu:topics}
 
-V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix. These functions are called **variadic functions**.
+V supports functions that receive an arbitrary, variable amounts of arguments, denoted with the `...` prefix. These functions are called **variadic functions**. A function can only have one variadic parameter. When the function takes additional parameters, the variadic parameter must be the last one.
+
 Below, `a ...int` refers to an arbitrary amount of parameters all which are of type `int` that will be collected into an array named `a`.
 
 ```v

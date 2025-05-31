@@ -26,6 +26,7 @@ V is a very young language developed by a driven community that has delivered a 
 - [Hello World!](./hellow.md)<BR> What **V** looks like!
 - [Variables](./variables.md)<BR> Variables and Data Types.
 - [Strings](./strings.md)<BR> An in-depth look at strings.
+- [Arrays](./arrays.md)<BR> Using arrays.
 - [Functions](./functions.md)<BR> Declaring and using functions.
 - [Structs](./structs.md)<BR> How to use structures to represent data.
 - [Error Handling](./error_handling.md)<BR> Learn how to handle errors using return types and other error handling strategies.

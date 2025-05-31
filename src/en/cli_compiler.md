@@ -16,6 +16,11 @@
 | `-pringfn <fn_name>` | Produce the C soure for a given function only. Use in conjuction with `-c`. |
 
 
+# Command should_compile_all
+
+Adding a file `.skip_should_compile_all` in a folder skips the folder from compilation.
+
+
 # The build system for V
 
 ```sh
