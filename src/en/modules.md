@@ -1,3 +1,23 @@
+/vlib/mod1
+/.vmodules/mod1
+/.vmodules/mod1/mod2
+/.vmodules/mod1/modules/mod2
+/.vmodules/mod1/mod2/mod3
+/.vmodules/mod1/modules/mod2/mod3
+/.vmodules/mod1/modules/mod2/modules/mod3
+
+
+/prj/mod1
+/prj/mod1/mod2
+/prj/mod1/modules/mod2
+/prj/mod1/mod2/mod3
+/prj/mod1/modules/mod2/mod3
+/prj/mod1/modules/mod2/modules/mod3
+
+
+// relative is always under a root!
+rel/mod3
+rel/modules/mod3
 
 **V Book** | [Home](./index.md) | [Translations](./book_versions.md) | V-LANG 0.4.10<BR>
 
